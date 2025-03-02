@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./AdminPanel.css";
+import { API_ROUTES } from "../app modules/apiRoutes";
 
 function AdminPanel() {
   const [registrations, setRegistrations] = useState([]);
@@ -15,7 +16,7 @@ function AdminPanel() {
 
   const fetchRegistrations = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/registrations", {
+      const response = await axios.get(`${API_ROUTES.baseUrl}/api/registrations`, {
         params: { search: searchTerm, payment_status: paymentStatus },
       });
       setRegistrations(response.data);
@@ -35,8 +36,8 @@ function AdminPanel() {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/registrations/remove/${id}`);
-        fetchRegistrations(); // Refresh list
+        await axios.delete(`${API_ROUTES.baseUrl}/api/registrations/remove/${id}`);
+        fetchRegistrations(); 
       } catch (error) {
         console.error("Error deleting user:", error);
       }
@@ -52,7 +53,7 @@ function AdminPanel() {
         payment_date: new Date(editingUser.payment_date).toISOString().slice(0, 19).replace("T", " "),
       };
 
-      await axios.put(`http://localhost:5000/api/registrations/edit/${editingUser.id}`, formattedUser);
+      await axios.put(`${API_ROUTES.baseUrl}/api/registrations/edit/${editingUser.id}`, formattedUser);
       setEditingUser(null); // Close modal after saving
       fetchRegistrations(); // Refresh list
     } catch (error) {
