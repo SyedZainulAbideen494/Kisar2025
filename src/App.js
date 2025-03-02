@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { Fragment, useEffect, useState } from "react";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Link,
+  Params,
+} from "react-router-dom";
+import "./index.css";
+import "./App.css";
+import KisarRegistration from "./form/form";
+import AdminPanel from "./admin pannel/admin";
+import AdminPanelPackages from "./admin pannel/add-packages";
+
+
+const router = createBrowserRouter([
+  {path: '/', element: <KisarRegistration/>},
+  {path: '/admin', element: <AdminPanel/>},
+  {path: '/admin/packages', element: <AdminPanelPackages/>},
+  { path: '*', element: <KisarRegistration /> },
+]);
+
 
 function App() {
+  const [subscription, setSubscription] = useState(null);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <RouterProvider router={router} />
     </div>
   );
 }

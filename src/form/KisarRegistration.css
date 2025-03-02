@@ -1,0 +1,152 @@
+/* 🌞 Light Mode Theme */
+.kisar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f5f5f5; /* Light background */
+  font-family: "SF Pro Display", sans-serif;
+  padding: 20px; /* Ensures spacing for smaller screens */
+}
+
+/* 📦 Glassmorphism Card */
+.kisar-box {
+  background: rgba(255, 255, 255, 0.6); /* Softer glass effect */
+  border-radius: 20px;
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* 🎟 Title */
+.kisar-box .title {
+  color: #333;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* 🏷 Input Fields */
+.input-container {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 15px;
+  transition: background 0.3s;
+}
+
+.input-container:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* 🖊 Icons inside Inputs */
+.input-container .icon {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+/* ✏ Input Fields */
+.kisar-box input, 
+.kisar-box select {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: #333;
+  font-size: 16px;
+  outline: none;
+}
+
+.kisar-box input::placeholder,
+.kisar-box select {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+/* 🔻 Dropdown Container */
+.dropdown-container {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 15px;
+  transition: background 0.3s;
+  cursor: pointer;
+  position: relative;
+}
+
+/* 🔻 Dropdown Select */
+.dropdown-container select {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #333; /* Dark text for contrast */
+  font-size: 16px;
+  outline: none;
+  cursor: pointer;
+  appearance: none; /* Removes default arrow */
+  padding-right: 20px;
+}
+
+/* 🔻 Dropdown Options Fix */
+.dropdown-container select option {
+  background: #fff !important; /* Light background */
+  color: #333 !important; /* Dark text */
+}
+
+/* 🔻 Ensuring Hover Effect on Options */
+.dropdown-container select option:hover {
+  background: #ddd !important; /* Slightly darker */
+  color: #333 !important;
+}
+
+/* 💳 Button */
+.kisar-box button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0078ff, #3c8aff);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease-in-out, opacity 0.2s;
+}
+
+.kisar-box button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* 🏆 Button Icon */
+.button-icon {
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+/* 📱 Mobile Responsiveness */
+@media (max-width: 480px) {
+  .kisar-box {
+      padding: 30px;
+  }
+
+  .kisar-box input, 
+  .kisar-box select {
+      font-size: 14px;
+  }
+
+  .kisar-box button {
+      font-size: 14px;
+  }
+}
