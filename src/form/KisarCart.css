@@ -1,0 +1,133 @@
+.cart__Cart__modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(8px);
+  }
+  
+  .cart-content__Cart__modal {
+    background: #fdfdfd;
+    padding: 25px;
+    width: 90%;
+    max-width: 420px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .cart-title__Cart__modal {
+    margin-bottom: 20px;
+    font-size: 1.6rem;
+    color: #2c3e50;
+    font-weight: bold;
+  }
+  
+  .package-list__Cart__modal {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 8px;
+  }
+  
+  .package-item__Cart__modal {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 1rem;
+    color: #2c3e50;
+    transition: background 0.2s;
+  }
+  
+  .package-item__Cart__modal:hover {
+    background: #ecf0f3;
+  }
+  
+  .package-name__Cart__modal {
+    font-weight: bold;
+  }
+  
+  .add-btn__Cart__modal,
+  .remove-btn__Cart__modal {
+    background: #0984e3;
+    color: white;
+    border: none;
+    width: 35px;
+    height: 35px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+  }
+  
+  .add-btn__Cart__modal:hover,
+  .remove-btn__Cart__modal:hover {
+    background: #074c8b;
+  }
+  
+  .remove-btn__Cart__modal:disabled {
+    background: #dfe6e9;
+    cursor: not-allowed;
+  }
+  
+  .package-quantity__Cart__modal {
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 0 12px;
+  }
+  
+  .total-price__Cart__modal {
+    margin-top: 18px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #2c3e50;
+  }
+  
+  .cart-buttons__Cart__modal {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .cancel-btn__Cart__modal {
+    background: #ff7675;
+    color: white;
+    flex: 1;
+    padding: 12px;
+    margin: 0 6px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+  }
+  
+
+  
+  .confirm-btn__Cart__modal {
+    background: #0984e3;
+    color: white;
+    flex: 1;
+    padding: 12px;
+    margin: 0 6px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+  }
+  
+
+  

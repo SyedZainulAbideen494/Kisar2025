@@ -1,28 +1,30 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { FaUser, FaEnvelope, FaPhoneAlt, FaRegCreditCard, FaBox } from "react-icons/fa";
+import { FaUser, FaEnvelope, FaPhoneAlt, FaRegCreditCard } from "react-icons/fa";
 import KisarChatbot from "../ai chat bot/KisarChatbot";
+import Cart from "./KisarCart"; // Import Cart component
 import "./KisarRegistration.css";
 import { API_ROUTES } from "../app modules/apiRoutes";
 
 function KisarRegistration() {
-  const [formData, setFormData] = useState({ name: "", email: "", phone: "", package: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "" });
   const [packages, setPackages] = useState({});
+  const [selectedPackages, setSelectedPackages] = useState({});
   const [loading, setLoading] = useState(true);
+  const [cartOpen, setCartOpen] = useState(false);
 
   // Fetch package details from backend
   useEffect(() => {
     const fetchPackages = async () => {
       try {
-        const { data } = await axios.get("http://localhost:5000/api/packages"); // Change URL if needed
+        const { data } = await axios.get("http://localhost:5000/api/packages");
         if (Array.isArray(data)) {
           const packageData = data.reduce((acc, pkg) => {
-            acc[pkg.name.toLowerCase()] = pkg.price; // Convert names to lowercase for uniformity
+            acc[pkg.name.toLowerCase()] = pkg.price;
             return acc;
           }, {});
-  
+
           setPackages(packageData);
-          setFormData((prev) => ({ ...prev, package: Object.keys(packageData)[0] })); // Set default package
         }
         setLoading(false);
       } catch (error) {
@@ -30,11 +32,9 @@ function KisarRegistration() {
         setLoading(false);
       }
     };
-  
+
     fetchPackages();
   }, []);
-  
-  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -48,18 +48,25 @@ function KisarRegistration() {
         return;
       }
 
-      const selectedPackage = formData.package;
-      const amount = packages[selectedPackage];
+      if (Object.keys(selectedPackages).length === 0) {
+        alert("Please select at least one package.");
+        return;
+      }
+
+      const totalAmount = Object.keys(selectedPackages).reduce(
+        (total, pkg) => total + selectedPackages[pkg] * packages[pkg],
+        0
+      );
 
       const { data } = await axios.post(API_ROUTES.createOrder, {
-        amount,
+        amount: totalAmount,
         currency: "INR",
         event: "Kisar",
         token,
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        package: selectedPackage,
+        package: selectedPackages,
       });
 
       const options = {
@@ -68,7 +75,7 @@ function KisarRegistration() {
         currency: "INR",
         order_id: data.order.id,
         name: "Kisar Event",
-        description: `Kisar Event - ${selectedPackage.charAt(0).toUpperCase() + selectedPackage.slice(1)} Package`,
+        description: `Kisar Event - Selected Packages`,
         handler: async (response) => {
           const verifyResponse = await axios.post(API_ROUTES.verifyPayment, {
             payment_id: response.razorpay_payment_id,
@@ -79,7 +86,7 @@ function KisarRegistration() {
             name: formData.name,
             email: formData.email,
             phone: formData.phone,
-            package: selectedPackage,
+            package: selectedPackages,
           });
 
           if (verifyResponse.data.success) {
@@ -101,78 +108,68 @@ function KisarRegistration() {
   };
 
   return (
-<div className="kisar-container">
-  <div className="kisar-box">
-    <h2 className="title">Kisar Event Registration</h2>
+    <div className="kisar-container">
+      <div className="kisar-box">
+        <h2 className="title">Kisar Event Registration</h2>
 
-    <div className="input-container">
-      <FaUser className="icon" />
-      <input
-        type="text"
-        name="name"
-        placeholder="Full Name"
-        onChange={handleChange}
-        required
-      />
+        <div className="input-container">
+          <FaUser className="icon" />
+          <input type="text" name="name" placeholder="Full Name" onChange={handleChange} required />
+        </div>
+
+        <div className="input-container">
+          <FaEnvelope className="icon" />
+          <input type="email" name="email" placeholder="Email Address" onChange={handleChange} required />
+        </div>
+
+        <div className="input-container">
+          <FaPhoneAlt className="icon" />
+          <input type="text" name="phone" placeholder="Phone Number" onChange={handleChange} required />
+        </div>
+
+        {/* Select Packages Button */}
+        <button className="select-packages-btn" onClick={() => setCartOpen(true)}>
+          Select Packages
+        </button>
+
+        <h4>Selected Packages:</h4>
+        {Object.keys(selectedPackages).length === 0 ? (
+          <p>No packages selected</p>
+        ) : (
+          <ul>
+            {Object.keys(selectedPackages).map((pkg) => (
+              <li key={pkg}>
+                {pkg.charAt(0).toUpperCase() + pkg.slice(1)} x{selectedPackages[pkg]}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <button onClick={handlePayment} disabled={loading}>
+          <FaRegCreditCard className="button-icon" /> Pay ₹
+          {Object.keys(selectedPackages).reduce(
+            (total, pkg) => total + selectedPackages[pkg] * packages[pkg],
+            0
+          )}
+        </button>
+      </div>
+
+      {/* Render Cart Modal */}
+      {cartOpen && (
+        <Cart
+          packages={packages}
+          onClose={() => setCartOpen(false)}
+          onConfirm={(selected) => {
+            setSelectedPackages(selected);
+            setCartOpen(false);
+          }}
+        />
+      )}
+
+      <KisarChatbot />
     </div>
-
-    <div className="input-container">
-      <FaEnvelope className="icon" />
-      <input
-        type="email"
-        name="email"
-        placeholder="Email Address"
-        onChange={handleChange}
-        required
-      />
-    </div>
-
-    <div className="input-container">
-      <FaPhoneAlt className="icon" />
-      <input
-        type="text"
-        name="phone"
-        placeholder="Phone Number"
-        onChange={handleChange}
-        required
-      />
-    </div>
-
-    {/* Package Dropdown */}
-    {loading ? (
-      <p>Loading packages...</p>
-    ) : (
-      <select
-        name="package"
-        onChange={handleChange}
-        value={formData.package}
-        className="dropdown"
-        style={{
-          color: "#333",
-          padding: "8px",
-          borderRadius: "5px",
-          marginBottom: "30px",
-          border: '1px solid #333'
-        }}
-      >
-        {Object.keys(packages).map((key) => (
-          <option key={key} value={key} style={{ background: "#1a1a1a", color: "#fff" }}>
-            {key.charAt(0).toUpperCase() + key.slice(1)} - ₹{packages[key]}
-          </option>
-        ))}
-      </select>
-    )}
-
-    <button onClick={handlePayment} disabled={loading}>
-      <FaRegCreditCard className="button-icon" /> Register & Pay ₹{packages[formData.package] || 0}
-    </button>
-  </div>
-
-  {/* Chatbot Component */}
-  <KisarChatbot />
-</div>
-
   );
 }
 
 export default KisarRegistration;
+
