@@ -17,7 +17,7 @@ function KisarRegistration() {
   useEffect(() => {
     const fetchPackages = async () => {
       try {
-        const { data } = await axios.get("http://localhost:5000/api/packages");
+        const { data } = await axios.get("https://g3zvcp57-5000.inc1.devtunnels.ms/api/packages");
         if (Array.isArray(data)) {
           const packageData = data.reduce((acc, pkg) => {
             acc[pkg.name.toLowerCase()] = pkg.price;
