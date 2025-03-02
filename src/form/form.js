@@ -43,10 +43,7 @@ function KisarRegistration() {
   const handlePayment = async () => {
     try {
       const token = localStorage.getItem("token");
-      if (!token) {
-        alert("Please log in to register.");
-        return;
-      }
+     
 
       if (Object.keys(selectedPackages).length === 0) {
         alert("Please select at least one package.");
