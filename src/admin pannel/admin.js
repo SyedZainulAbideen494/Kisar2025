@@ -162,11 +162,24 @@ function AdminPanel() {
   <div className="modal-overlay">
     <div className="edit-modal">
       <h3>Edit User</h3>
-      <select value={editingUser.honorific} onChange={(e) => setEditingUser({ ...editingUser, honorific: e.target.value })}>
-     <option value="Mr.">Mr.</option>
-            <option value="Ms.">Ms.</option>
-            <option value="Dr.">Dr.</option>
-      </select>
+      <select
+  value={editingUser.honorific}
+  onChange={(e) => setEditingUser({ ...editingUser, honorific: e.target.value })}
+  style={{
+    backgroundColor: "#333", // Dark background
+    color: "#fff", // Light text for contrast
+    border: "1px solid #555", // Subtle border
+    padding: "8px",
+    borderRadius: "5px",
+    outline: "none",
+    cursor: "pointer",
+  }}
+>
+  <option value="Mr.">Mr.</option>
+  <option value="Ms.">Ms.</option>
+  <option value="Dr.">Dr.</option>
+</select>
+
       <input type="text" value={editingUser.first_name} onChange={(e) => setEditingUser({ ...editingUser, first_name: e.target.value })} placeholder="First Name" />
       <input type="text" value={editingUser.middle_name} onChange={(e) => setEditingUser({ ...editingUser, middle_name: e.target.value })} placeholder="Middle Name (Optional)" />
       <input type="text" value={editingUser.last_name} onChange={(e) => setEditingUser({ ...editingUser, last_name: e.target.value })} placeholder="Last Name" />
@@ -177,18 +190,42 @@ function AdminPanel() {
       <input type="text" value={editingUser.state} onChange={(e) => setEditingUser({ ...editingUser, state: e.target.value })} placeholder="State" />
       <input type="text" value={editingUser.pincode} onChange={(e) => setEditingUser({ ...editingUser, pincode: e.target.value })} placeholder="Pincode" />
       <input type="text" value={editingUser.med_council_number} onChange={(e) => setEditingUser({ ...editingUser, med_council_number: e.target.value })} placeholder="Medical Council Number (If applicable)" />
-      <select value={editingUser.category} onChange={(e) => setEditingUser({ ...editingUser, category: e.target.value })}>
+      <select value={editingUser.category}  style={{
+    backgroundColor: "#333", // Dark background
+    color: "#fff", // Light text for contrast
+    border: "1px solid #555", // Subtle border
+    padding: "8px",
+    borderRadius: "5px",
+    outline: "none",
+    cursor: "pointer",
+  }} onChange={(e) => setEditingUser({ ...editingUser, category: e.target.value })}>
         <option value="Doctor">Doctor</option>
         <option value="Student">Student</option>
         <option value="Professional">Professional</option>
       </select>
-      <select value={editingUser.type} onChange={(e) => setEditingUser({ ...editingUser, type: e.target.value })}>
+      <select  style={{
+    backgroundColor: "#333", // Dark background
+    color: "#fff", // Light text for contrast
+    border: "1px solid #555", // Subtle border
+    padding: "8px",
+    borderRadius: "5px",
+    outline: "none",
+    cursor: "pointer",
+  }} value={editingUser.type} onChange={(e) => setEditingUser({ ...editingUser, type: e.target.value })}>
       <option value="DELEGATE">Delegate</option>
       <option value="FACULTY">Faculty</option>
       </select>
       <input type="text" value={editingUser.package_ids} onChange={(e) => setEditingUser({ ...editingUser, package_ids: e.target.value })} placeholder="Package IDs (Comma-separated)" />
       <input type="text" value={editingUser.payment_id} onChange={(e) => setEditingUser({ ...editingUser, payment_id: e.target.value })} placeholder="Payment ID" />
-      <select value={editingUser.payment_status} onChange={(e) => setEditingUser({ ...editingUser, payment_status: e.target.value })}>
+      <select  style={{
+    backgroundColor: "#333", // Dark background
+    color: "#fff", // Light text for contrast
+    border: "1px solid #555", // Subtle border
+    padding: "8px",
+    borderRadius: "5px",
+    outline: "none",
+    cursor: "pointer",
+  }} value={editingUser.payment_status} onChange={(e) => setEditingUser({ ...editingUser, payment_status: e.target.value })}>
         <option value="success">Success</option>
         <option value="pending">Pending</option>
         <option value="failed">Failed</option>
