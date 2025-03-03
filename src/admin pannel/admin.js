@@ -42,24 +42,27 @@ function AdminPanel() {
         console.error("Error deleting user:", error);
       }
     }
+
   };
 
-  // Handle Update User
+
   const handleUpdateUser = async () => {
     try {
-      // Convert date to MySQL-compatible format
+      // Ensure `payment_date` is properly formatted
       const formattedUser = {
         ...editingUser,
-        payment_date: new Date(editingUser.payment_date).toISOString().slice(0, 19).replace("T", " "),
+        payment_date: editingUser.payment_date ? new Date(editingUser.payment_date).toISOString().slice(0, 19).replace("T", " ") : null,
       };
-
+  
       await axios.put(`${API_ROUTES.baseUrl}/api/registrations/edit/${editingUser.id}`, formattedUser);
+  
       setEditingUser(null); // Close modal after saving
       fetchRegistrations(); // Refresh list
     } catch (error) {
       console.error("Error updating user:", error);
     }
   };
+  
 
   return (
     <div className="admin-layout__admin__page">
@@ -87,100 +90,121 @@ function AdminPanel() {
         </select>
       </div>
 
-      {/* Table */}
-      <div className="custom-table__admin__page">
-        {loading ? (
-          <div className="loading-spinner__admin__page">Loading...</div>
-        ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Payment ID</th>
-                <th>Payment Status</th>
-                <th>Payment Date</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {registrations.length > 0 ? (
-                registrations.map((user) => (
-                  <tr key={user.id}>
-                    <td>{user.id}</td>
-                    <td>{user.name}</td>
-                    <td>{user.email}</td>
-                    <td>{user.phone}</td>
-                    <td>{user.payment_id}</td>
-                    <td>{user.payment_status}</td>
-                    <td>{user.payment_date}</td>
-                    <td>
-                      <button onClick={() => handleEditClick(user)} className="edit-btn__admin">Edit</button>
-                      <button onClick={() => handleDelete(user.id)} className="delete-btn__admin">Delete</button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="8" className="no-data__admin__page">No Registrations Found</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        )}
-      </div>
-
-      {/* Edit User Modal */}
-      {editingUser && (
-        <div className="modal-overlay">
-          <div className="edit-modal">
-            <h3>Edit User</h3>
-            <input
-              type="text"
-              value={editingUser.name}
-              onChange={(e) => setEditingUser({ ...editingUser, name: e.target.value })}
-              placeholder="Name"
-            />
-            <input
-              type="email"
-              value={editingUser.email}
-              onChange={(e) => setEditingUser({ ...editingUser, email: e.target.value })}
-              placeholder="Email"
-            />
-            <input
-              type="text"
-              value={editingUser.phone}
-              onChange={(e) => setEditingUser({ ...editingUser, phone: e.target.value })}
-              placeholder="Phone"
-            />
-            <input
-              type="text"
-              value={editingUser.payment_id}
-              onChange={(e) => setEditingUser({ ...editingUser, payment_id: e.target.value })}
-              placeholder="Payment ID"
-            />
-            <select
-              value={editingUser.payment_status}
-              onChange={(e) => setEditingUser({ ...editingUser, payment_status: e.target.value })}
-            >
-              <option value="success">Success</option>
-              <option value="pending">Pending</option>
-              <option value="failed">Failed</option>
-            </select>
-            <input
-              type="date"
-              value={editingUser.payment_date}
-              onChange={(e) => setEditingUser({ ...editingUser, payment_date: e.target.value })}
-            />
-            <div className="modal-buttons">
-              <button onClick={handleUpdateUser} className="save-btn">Save</button>
-              <button onClick={() => setEditingUser(null)} className="cancel-btn">Cancel</button>
-            </div>
-          </div>
-        </div>
+      <div className="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Honorific</th>
+        <th>First Name</th>
+        <th>Middle Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Address</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Pincode</th>
+        <th>Med Council No.</th>
+        <th>Category</th>
+        <th>Type</th>
+        <th>Package IDs</th>
+        <th>Payment ID</th>
+        <th>Payment Status</th>
+        <th>Amount</th>
+        <th>Currency</th>
+        <th>Payment Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {registrations.length > 0 ? (
+        registrations.map((user) => (
+          <tr key={user.id}>
+            <td>{user.id}</td>
+            <td>{user.honorific}</td>
+            <td>{user.first_name}</td>
+            <td>{user.middle_name}</td>
+            <td>{user.last_name}</td>
+            <td>{user.email}</td>
+            <td>{user.phone}</td>
+            <td>{user.address}</td>
+            <td>{user.city}</td>
+            <td>{user.state}</td>
+            <td>{user.pincode}</td>
+            <td>{user.med_council_number}</td>
+            <td>{user.category}</td>
+            <td>{user.type}</td>
+            <td>{user.package_ids}</td>
+            <td>{user.payment_id}</td>
+            <td>{user.payment_status}</td>
+            <td>{user.amount}</td>
+            <td>{user.currency}</td>
+            <td>{user.payment_date}</td>
+            <td>
+              <button onClick={() => handleEditClick(user)} className="edit-btn__admin">Edit</button>
+              <button onClick={() => handleDelete(user.id)} className="delete-btn__admin">Delete</button>
+            </td>
+          </tr>
+        ))
+      ) : (
+        <tr>
+          <td colSpan="21" className="no-data__admin__page">No Registrations Found</td>
+        </tr>
       )}
+    </tbody>
+  </table>
+</div>
+
+
+   {/* Edit User Modal */}
+{editingUser && (
+  <div className="modal-overlay">
+    <div className="edit-modal">
+      <h3>Edit User</h3>
+      <select value={editingUser.honorific} onChange={(e) => setEditingUser({ ...editingUser, honorific: e.target.value })}>
+     <option value="Mr.">Mr.</option>
+            <option value="Ms.">Ms.</option>
+            <option value="Dr.">Dr.</option>
+      </select>
+      <input type="text" value={editingUser.first_name} onChange={(e) => setEditingUser({ ...editingUser, first_name: e.target.value })} placeholder="First Name" />
+      <input type="text" value={editingUser.middle_name} onChange={(e) => setEditingUser({ ...editingUser, middle_name: e.target.value })} placeholder="Middle Name (Optional)" />
+      <input type="text" value={editingUser.last_name} onChange={(e) => setEditingUser({ ...editingUser, last_name: e.target.value })} placeholder="Last Name" />
+      <input type="email" value={editingUser.email} onChange={(e) => setEditingUser({ ...editingUser, email: e.target.value })} placeholder="Email" />
+      <input type="text" value={editingUser.phone} onChange={(e) => setEditingUser({ ...editingUser, phone: e.target.value })} placeholder="Phone" />
+      <input type="text" value={editingUser.address} onChange={(e) => setEditingUser({ ...editingUser, address: e.target.value })} placeholder="Address" />
+      <input type="text" value={editingUser.city} onChange={(e) => setEditingUser({ ...editingUser, city: e.target.value })} placeholder="City" />
+      <input type="text" value={editingUser.state} onChange={(e) => setEditingUser({ ...editingUser, state: e.target.value })} placeholder="State" />
+      <input type="text" value={editingUser.pincode} onChange={(e) => setEditingUser({ ...editingUser, pincode: e.target.value })} placeholder="Pincode" />
+      <input type="text" value={editingUser.med_council_number} onChange={(e) => setEditingUser({ ...editingUser, med_council_number: e.target.value })} placeholder="Medical Council Number (If applicable)" />
+      <select value={editingUser.category} onChange={(e) => setEditingUser({ ...editingUser, category: e.target.value })}>
+        <option value="Doctor">Doctor</option>
+        <option value="Student">Student</option>
+        <option value="Professional">Professional</option>
+      </select>
+      <select value={editingUser.type} onChange={(e) => setEditingUser({ ...editingUser, type: e.target.value })}>
+      <option value="DELEGATE">Delegate</option>
+      <option value="FACULTY">Faculty</option>
+      </select>
+      <input type="text" value={editingUser.package_ids} onChange={(e) => setEditingUser({ ...editingUser, package_ids: e.target.value })} placeholder="Package IDs (Comma-separated)" />
+      <input type="text" value={editingUser.payment_id} onChange={(e) => setEditingUser({ ...editingUser, payment_id: e.target.value })} placeholder="Payment ID" />
+      <select value={editingUser.payment_status} onChange={(e) => setEditingUser({ ...editingUser, payment_status: e.target.value })}>
+        <option value="success">Success</option>
+        <option value="pending">Pending</option>
+        <option value="failed">Failed</option>
+      </select>
+      <input type="number" value={editingUser.amount} onChange={(e) => setEditingUser({ ...editingUser, amount: e.target.value })} placeholder="Amount" />
+      <input type="text" value={editingUser.currency} onChange={(e) => setEditingUser({ ...editingUser, currency: e.target.value })} placeholder="Currency (e.g., INR, USD)" />
+      <input type="date" value={editingUser.payment_date} onChange={(e) => setEditingUser({ ...editingUser, payment_date: e.target.value })} />
+
+      <div className="modal-buttons">
+        <button onClick={handleUpdateUser} className="save-btn">Save</button>
+        <button onClick={() => setEditingUser(null)} className="cancel-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }
