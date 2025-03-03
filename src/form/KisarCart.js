@@ -15,6 +15,8 @@ const Cart = ({ packages, onClose, onConfirm }) => {
     });
   };
 
+  packages = packages.filter((pkg)=>pkg.active==true)
+
   const totalPrice = selectedPackageIds.reduce((total, pkgId) => {
     const pkg = packages.find((p) => p.id === pkgId);
     return total + (pkg ? parseFloat(pkg.price) : 0);

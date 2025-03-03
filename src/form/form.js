@@ -154,24 +154,53 @@ function KisarRegistration() {
 
   const handlePaymentInstamojo = async () => {
     try {
+      // Check if at least one package is selected
       if (selectedPackageIds.length === 0) {
         alert("Please select at least one package.");
         return;
       }
   
-      // Email validation
+      // Required field validations (except med_council_number, type, and middle_name)
+      const requiredFields = {
+        honorific: "Honorific is required",
+        first_name: "First Name is required",
+        last_name: "Last Name is required",
+        email: "Email is required",
+        phone: "Phone Number is required",
+        address: "Address is required",
+        city: "City is required",
+        state: "State is required",
+        pincode: "Pincode is required",
+        category: "Category is required",
+      };
+  
+      for (const [field, message] of Object.entries(requiredFields)) {
+        if (!formData[field] || formData[field].trim() === "") {
+          alert(message);
+          return;
+        }
+      }
+  
+      // Email format validation
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!formData.email || !emailRegex.test(formData.email)) {
+      if (!emailRegex.test(formData.email)) {
         alert("Please enter a valid email address.");
         return;
       }
   
-      // Phone number validation (Assuming Indian 10-digit phone number)
+      // Phone number format validation (Indian 10-digit starting with 6-9)
       const phoneRegex = /^[6-9]\d{9}$/;
-      if (!formData.phone || !phoneRegex.test(formData.phone)) {
-        alert("Please enter a valid 10-digit phone number.");
+      if (!phoneRegex.test(formData.phone)) {
+        alert("Please enter a valid 10-digit phone number");
         return;
       }
+
+      // Pincode validation (6 digits, starting with 1-9)
+    const pincodeRegex = /^[1-9][0-9]{5}$/;
+    if (!pincodeRegex.test(formData.pincode)) {
+      alert("Please enter a valid 6-digit pincode");
+      return;
+    }
   
       // Calculate total amount
       const totalAmount = selectedPackageIds.reduce((total, pkgId) => {
