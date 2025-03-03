@@ -39,7 +39,7 @@ const PaymentSuccess = () => {
           lineHeight: "1.5",
         }}
       >
-        Your payment has been successfully processed. You will receive an email shortly with your confirmation receipt and invoice.
+        Your payment has been successfully processed. You will receive an email shortly with your confirmation receipt. You can close this window.
       </p>
     </div>
   );

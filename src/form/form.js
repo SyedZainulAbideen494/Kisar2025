@@ -28,6 +28,9 @@ function KisarRegistration() {
   const [cartOpen, setCartOpen] = useState(false);
   const formRef = useRef(null); // Reference to the form container
   const [errors, setErrors] = useState({ email: "", phone: "" });
+  const [tcOpen, setTcOpen] = useState(true); // T&C dialog state
+  const [tcAgreed, setTcAgreed] = useState(false); // T&C agreement state
+  
 
   // Fetch packages and scroll to top on mount
   useEffect(() => {
@@ -51,6 +54,11 @@ function KisarRegistration() {
       formRef.current.scrollTo(0, 0);
     }
   }, []);
+
+  const handleTcAgree = () => {
+    setTcAgreed(true);
+    setTcOpen(false);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -243,7 +251,7 @@ function KisarRegistration() {
   return (
     <div className="kisar-container" ref={formRef}>
       <div className="kisar-box">
-        <h2 className="title">Kisar 2025 Event Registration</h2>
+        <h2 className="title">10th Annual Conference - Kisar 2025 Registration</h2>
 
         <div className="input-container">
           <FaUser className="icon" />
@@ -410,6 +418,28 @@ function KisarRegistration() {
           }, 0)}
         </button>
       </div>
+
+      {/* Terms & Conditions Dialog */}
+      {tcOpen && (
+        <div className="tc-modal">
+          <div className="tc-content">
+            <h2>Terms & Conditions</h2>
+            <div className="tc-text">
+              <p>Please review and agree to the following terms before proceeding with registration:</p>
+              <ul>
+                <li><strong>Non-Residential Registration:</strong> Includes access to the conference and banquet only.</li>
+                <li><strong>Residential – Single Occupancy (2 Days):</strong> Covers accommodation, conference participation, and banquet access for one individual.</li>
+                <li><strong>Residential – Twin Sharing (2 Days):</strong> Includes accommodation, conference, and banquet access; price is per person sharing the room.</li>
+                <li><strong>Double Occupancy:</strong> Provides accommodation for two people, with conference and banquet access for one registrant.</li>
+                <li><strong>Accompanying Person (Double Occupancy):</strong> Banquet access is available only with mandatory registration.</li>
+              </ul>
+            </div>
+            <div className="tc-buttons">
+              <button onClick={handleTcAgree} className="tc-agree">I Agree</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {cartOpen && (
         <Cart
