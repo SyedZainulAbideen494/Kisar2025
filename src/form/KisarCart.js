@@ -3,28 +3,28 @@ import { FaPlus, FaMinus, FaShoppingCart } from "react-icons/fa";
 import "./KisarCart.css";
 
 const Cart = ({ packages, onClose, onConfirm }) => {
-  const [selectedPackageIds, setSelectedPackageIds] = useState([]); // Array of selected package IDs
+  const [selectedMainPackageId, setSelectedMainPackageId] = useState(null); // Single Main package ID
+  const [selectedAddonPackageId, setSelectedAddonPackageId] = useState(null); // Single Addon package ID
 
-  const handleTogglePackage = (pkgId) => {
-    setSelectedPackageIds((prev) => {
-      if (prev.includes(pkgId)) {
-        return prev.filter((id) => id !== pkgId); // Remove if already selected
-      } else {
-        return [...prev, pkgId]; // Add if not selected
-      }
-    });
+  const handleMainPackageToggle = (pkgId) => {
+    setSelectedMainPackageId((prev) => (prev === pkgId ? null : pkgId)); // Toggle or select new
   };
 
-  packages = packages.filter((pkg)=>pkg.active==true)
+  const handleAddonPackageToggle = (pkgId) => {
+    if (!selectedMainPackageId) return; // Disable Addon selection without Main
+    setSelectedAddonPackageId((prev) => (prev === pkgId ? null : pkgId)); // Toggle or select new
+  };
+  console.log("packages",packages)
+  const filteredPackages = packages.filter((pkg) => pkg.active === 1);
+  const mainPackages = filteredPackages.filter((pkg) => pkg.type === "MAIN");
+  const addonPackages = filteredPackages.filter((pkg) => pkg.type === "ADDON");
 
-  const totalPrice = selectedPackageIds.reduce((total, pkgId) => {
-    const pkg = packages.find((p) => p.id === pkgId);
-    return total + (pkg ? parseFloat(pkg.price) : 0);
-  }, 0);
-
-  // Separate packages into Main and Addon
-  const mainPackages = packages.filter((pkg) => pkg.type === "MAIN");
-  const addonPackages = packages.filter((pkg) => pkg.type === "ADDON");
+  const totalPrice = [selectedMainPackageId, selectedAddonPackageId]
+    .filter(Boolean) // Remove nulls
+    .reduce((total, pkgId) => {
+      const pkg = filteredPackages.find((p) => p.id === pkgId);
+      return total + (pkg ? parseFloat(pkg.price) : 0);
+    }, 0);
 
   return (
     <div className="cart__Cart__modal">
@@ -36,7 +36,7 @@ const Cart = ({ packages, onClose, onConfirm }) => {
         <div className="cart-sections__Cart__modal">
           {/* Main Packages Section */}
           <div className="package-section__Cart__modal">
-            <h4 className="section-title__Cart__modal">Main Packages</h4>
+            <h4 className="section-title__Cart__modal">Main Packages (Select One - Mandatory)</h4>
             <div className="package-list__Cart__modal">
               {mainPackages.length > 0 ? (
                 mainPackages.map((pkg) => (
@@ -45,14 +45,12 @@ const Cart = ({ packages, onClose, onConfirm }) => {
                       {pkg.name} - ₹{pkg.price}
                     </span>
                     <button
-                      className={`toggle-btn__Cart__modal ${selectedPackageIds.includes(pkg.id) ? "selected" : ""}`}
-                      onClick={() => handleTogglePackage(pkg.id)}
+                      className={`toggle-btn__Cart__modal ${
+                        selectedMainPackageId === pkg.id ? "selected" : ""
+                      }`}
+                      onClick={() => handleMainPackageToggle(pkg.id)}
                     >
-                      {selectedPackageIds.includes(pkg.id) ? (
-                        <FaMinus />
-                      ) : (
-                        <FaPlus />
-                      )}
+                      {selectedMainPackageId === pkg.id ? <FaMinus /> : <FaPlus />}
                     </button>
                   </div>
                 ))
@@ -64,7 +62,7 @@ const Cart = ({ packages, onClose, onConfirm }) => {
 
           {/* Addon Packages Section */}
           <div className="package-section__Cart__modal">
-            <h4 className="section-title__Cart__modal">Addon Packages</h4>
+            <h4 className="section-title__Cart__modal">Addon Packages (Select One - Optional)</h4>
             <div className="package-list__Cart__modal">
               {addonPackages.length > 0 ? (
                 addonPackages.map((pkg) => (
@@ -73,14 +71,13 @@ const Cart = ({ packages, onClose, onConfirm }) => {
                       {pkg.name} - ₹{pkg.price}
                     </span>
                     <button
-                      className={`toggle-btn__Cart__modal ${selectedPackageIds.includes(pkg.id) ? "selected" : ""}`}
-                      onClick={() => handleTogglePackage(pkg.id)}
+                      className={`toggle-btn__Cart__modal ${
+                        selectedAddonPackageId === pkg.id ? "selected" : ""
+                      } ${!selectedMainPackageId ? "disabled" : ""}`}
+                      onClick={() => handleAddonPackageToggle(pkg.id)}
+                      disabled={!selectedMainPackageId} // Disable if no Main package selected
                     >
-                      {selectedPackageIds.includes(pkg.id) ? (
-                        <FaMinus />
-                      ) : (
-                        <FaPlus />
-                      )}
+                      {selectedAddonPackageId === pkg.id ? <FaMinus /> : <FaPlus />}
                     </button>
                   </div>
                 ))
@@ -99,8 +96,8 @@ const Cart = ({ packages, onClose, onConfirm }) => {
           </button>
           <button
             className="confirm-btn__Cart__modal"
-            onClick={() => onConfirm(selectedPackageIds)}
-            disabled={selectedPackageIds.length === 0}
+            onClick={() => onConfirm([selectedMainPackageId, selectedAddonPackageId].filter(Boolean))}
+            disabled={!selectedMainPackageId} // Disable Confirm if no Main package
           >
             Confirm
           </button>

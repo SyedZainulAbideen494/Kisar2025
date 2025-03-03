@@ -186,12 +186,76 @@
   background: #dfe6e9;
   cursor: not-allowed;
 }
+/* ... (previous styles remain unchanged up to cart-buttons__Cart__modal) */
 
-/* Responsive Design */
+/* Updated Styles for Single Selection */
+.package-item__Cart__modal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: #2c3e50;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  margin-bottom: 10px;
+}
+
+.package-item__Cart__modal:hover {
+  background: #ecf0f3;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-btn__Cart__modal {
+  background: #0984e3;
+  color: white;
+  border: none;
+  width: 35px;
+  height: 35px;
+  font-size: 1.1rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-btn__Cart__modal.selected {
+  background: #ff4444; /* Red when selected */
+}
+
+.toggle-btn__Cart__modal:hover:not(.disabled) {
+  background: #074c8b;
+  transform: scale(1.1);
+}
+
+.toggle-btn__Cart__modal.selected:hover {
+  background: #cc3333;
+}
+
+.toggle-btn__Cart__modal.disabled {
+  background: #dfe6e9;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.section-title__Cart__modal {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+/* Mobile Adjustments */
 @media (max-width: 480px) {
   .cart-content__Cart__modal {
     width: 95%;
-    padding: 20px;
+    padding: 15px;
+    max-height: 85vh; /* Adjusted for mobile */
   }
 
   .cart-title__Cart__modal {
@@ -199,13 +263,33 @@
   }
 
   .package-item__Cart__modal {
-    flex-direction: column;
+    flex-direction: column; /* Stack name and button */
     align-items: flex-start;
     gap: 10px;
+    padding: 10px;
+  }
+
+  .package-name__Cart__modal {
+    font-size: 0.9rem;
   }
 
   .toggle-btn__Cart__modal {
     width: 30px;
     height: 30px;
+    font-size: 1rem;
+  }
+
+  .total-price__Cart__modal {
+    font-size: 1.2rem;
+  }
+
+  .cart-buttons__Cart__modal {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cancel-btn__Cart__modal, .confirm-btn__Cart__modal {
+    padding: 12px;
+    font-size: 0.9rem;
   }
 }

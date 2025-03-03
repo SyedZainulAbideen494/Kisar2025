@@ -202,13 +202,13 @@ function KisarRegistration() {
         alert("Please enter a valid 10-digit phone number");
         return;
       }
-
+  
       // Pincode validation (6 digits, starting with 1-9)
-    const pincodeRegex = /^[1-9][0-9]{5}$/;
-    if (!pincodeRegex.test(formData.pincode)) {
-      alert("Please enter a valid 6-digit pincode");
-      return;
-    }
+      const pincodeRegex = /^[1-9][0-9]{5}$/;
+      if (!pincodeRegex.test(formData.pincode)) {
+        alert("Please enter a valid 6-digit pincode");
+        return;
+      }
   
       // Calculate total amount
       const totalAmount = selectedPackageIds.reduce((total, pkgId) => {
@@ -217,7 +217,7 @@ function KisarRegistration() {
       }, 0);
   
       // Make API request to create an order
-      const { data } = await axios.post(API_ROUTES.createOrder, {
+      const response = await axios.post(API_ROUTES.createOrder, {
         amount: totalAmount,
         honorific: formData.honorific,
         first_name: formData.first_name,
@@ -232,10 +232,11 @@ function KisarRegistration() {
         med_council_number: formData.med_council_number,
         category: formData.category,
         type: formData.type,
-        package_ids: selectedPackageIds, // Send array of package IDs
+        package_ids: selectedPackageIds,
       });
   
-      // Redirect to Instamojo payment URL
+      // Handle successful response (200 OK)
+      const data = response.data;
       if (data.payment_request && data.payment_request.url) {
         window.location.href = data.payment_request.url;
       } else {
@@ -243,7 +244,28 @@ function KisarRegistration() {
       }
     } catch (error) {
       console.error("Error initiating Instamojo payment:", error);
-      alert("Error initiating payment with Instamojo");
+  
+      // Handle specific status codes
+      if (error.response) {
+        const { status, data } = error.response;
+  
+        if (status === 409) {
+          // Phone number already registered with SUCCESS
+          alert(data.error || "This phone number is already registered with a successful payment.");
+        } else if (status === 500) {
+          // Server error
+          alert("An error occurred on the server. Please try again later or contact support.");
+        } else {
+          // Other unexpected status codes
+          alert(data.error || "An unexpected error occurred. Please try again.");
+        }
+      } else if (error.request) {
+        // Network error (no response received)
+        alert("Network error. Please check your connection and try again.");
+      } else {
+        // Other errors (e.g., setup or unexpected)
+        alert("Error initiating payment: " + error.message);
+      }
     }
   };
   
@@ -440,6 +462,8 @@ function KisarRegistration() {
           </div>
         </div>
       )}
+
+      <KisarChatbot/>
 
       {cartOpen && (
         <Cart
