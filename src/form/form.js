@@ -27,6 +27,7 @@ function KisarRegistration() {
   const [loading, setLoading] = useState(true);
   const [cartOpen, setCartOpen] = useState(false);
   const formRef = useRef(null); // Reference to the form container
+  const [errors, setErrors] = useState({ email: "", phone: "" });
 
   // Fetch packages and scroll to top on mount
   useEffect(() => {
@@ -52,8 +53,22 @@ function KisarRegistration() {
   }, []);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    // Validate email
+    if (name === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      setErrors({ ...errors, email: emailRegex.test(value) ? "" : "Invalid email format" });
+    }
+
+    // Validate phone number (10 digits only)
+    if (name === "phone") {
+      const phoneRegex = /^[0-9]{10}$/;
+      setErrors({ ...errors, phone: phoneRegex.test(value) ? "" : "Phone number must be 10 digits" });
+    }
   };
+
 
   const handlePaymentRazorpay = async () => {
     try {
@@ -144,11 +159,27 @@ function KisarRegistration() {
         return;
       }
   
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!formData.email || !emailRegex.test(formData.email)) {
+        alert("Please enter a valid email address.");
+        return;
+      }
+  
+      // Phone number validation (Assuming Indian 10-digit phone number)
+      const phoneRegex = /^[6-9]\d{9}$/;
+      if (!formData.phone || !phoneRegex.test(formData.phone)) {
+        alert("Please enter a valid 10-digit phone number.");
+        return;
+      }
+  
+      // Calculate total amount
       const totalAmount = selectedPackageIds.reduce((total, pkgId) => {
         const pkg = packages.find((p) => p.id === pkgId);
         return total + (pkg ? parseFloat(pkg.price) : 0);
       }, 0);
   
+      // Make API request to create an order
       const { data } = await axios.post(API_ROUTES.createOrder, {
         amount: totalAmount,
         honorific: formData.honorific,
@@ -167,6 +198,7 @@ function KisarRegistration() {
         package_ids: selectedPackageIds, // Send array of package IDs
       });
   
+      // Redirect to Instamojo payment URL
       if (data.payment_request && data.payment_request.url) {
         window.location.href = data.payment_request.url;
       } else {
@@ -177,6 +209,7 @@ function KisarRegistration() {
       alert("Error initiating payment with Instamojo");
     }
   };
+  
 
   return (
     <div className="kisar-container" ref={formRef}>
