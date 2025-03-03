@@ -360,7 +360,7 @@ function KisarRegistration() {
         />
       )}
 
-      <KisarChatbot />
+
     </div>
   );
 }
