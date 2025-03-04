@@ -28,7 +28,7 @@ function KisarRegistration() {
   const [cartOpen, setCartOpen] = useState(false);
   const formRef = useRef(null); // Reference to the form container
   const [errors, setErrors] = useState({ email: "", phone: "" });
-  const [tcOpen, setTcOpen] = useState(true); // T&C dialog state
+  const [tcOpen, setTcOpen] = useState(false); // T&C dialog state
   const [tcAgreed, setTcAgreed] = useState(false); // T&C agreement state
   
 
@@ -56,8 +56,9 @@ function KisarRegistration() {
   }, []);
 
   const handleTcAgree = () => {
-    setTcAgreed(true);
-    setTcOpen(false);
+    setTcAgreed(true); // Mark TC as accepted
+    setTcOpen(false);    // Close TC modal
+    setCartOpen(true);   // Now open the cart
   };
 
   const handleChange = (e) => {
@@ -416,9 +417,13 @@ function KisarRegistration() {
           />
         </div>
 
-        <button className="select-packages-btn" onClick={() => setCartOpen(true)} style={{marginBottom: '10px'}}>
-          Select Packages
-        </button>
+        <button 
+        className="select-packages-btn" 
+        onClick={() => setTcOpen(true)} 
+        style={{ marginBottom: '10px' }}
+      >
+        Select Packages
+      </button>
 
         {selectedPackageIds.length > 0 && (
   <>
