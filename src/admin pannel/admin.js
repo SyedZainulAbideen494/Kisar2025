@@ -199,9 +199,40 @@ function AdminPanel() {
             <td>{new Date(user.payment_date).toLocaleString("en-IN", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true })}</td>
 
             <td>
-              <button onClick={() => handleEditClick(user)} className="edit-btn__admin">Edit</button><br/>
-              <button onClick={() => handleDelete(user.id)} className="delete-btn__admin">Delete</button>
-            </td>
+  <div style={{ display: "flex", flexDirection: "column", gap: "6px", alignItems: "center" }}>
+    <button 
+      onClick={() => handleEditClick(user)} 
+      style={{ 
+        width: "100px", 
+        padding: "8px 12px", 
+        borderRadius: "6px", 
+        fontSize: "14px", 
+        border: "none", 
+        cursor: "pointer", 
+        backgroundColor: "#0078ff", 
+        color: "white" 
+      }}
+    >
+      Edit
+    </button>
+    <button 
+      onClick={() => handleDelete(user.id)} 
+      style={{ 
+        width: "100px", 
+        padding: "8px 12px", 
+        borderRadius: "6px", 
+        fontSize: "14px", 
+        border: "none", 
+        cursor: "pointer", 
+        backgroundColor: "#ff4d4d", 
+        color: "white" 
+      }}
+    >
+      Delete
+    </button>
+  </div>
+</td>
+
           </tr>
         ))
       ) : (
