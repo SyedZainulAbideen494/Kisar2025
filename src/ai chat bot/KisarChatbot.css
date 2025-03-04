@@ -145,16 +145,21 @@
 /* Mobile Full-Screen Chatbot */
 @media screen and (max-width: 768px) {
     .chatbot-window {
-        width: 100vw;
-        height: 80vh;
-        bottom: 0;
-        right: 0;
-        border-radius: 0;
-        box-shadow: none;
+        width: 90vw; /* Slightly smaller width for spacing */
+        height: 80vh; /* Keeps it large but not full height */
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* Centers it */
+        border-radius: 12px; /* Adds a smooth edge */
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Soft shadow */
+        background: white;
+        z-index: 1000; /* Ensures it's above other elements */
     }
 
     .chatbot-messages {
-        height: calc(100vh - 120px);
+        height: calc(80vh - 120px); /* Adjusts height dynamically */
+        overflow-y: auto;
     }
 
     .chatbot-input {
@@ -164,8 +169,10 @@
     .chatbot-header {
         padding: 18px;
         font-size: 18px;
+        text-align: center;
     }
 }
+
 
 /* Animations */
 @keyframes fadeIn {
