@@ -95,28 +95,7 @@ function AdminPanel() {
           <option value="failed">Failed</option>
         </select>
 
-                {/* Category Filter */}
-                <select
-          className="filter-select__admin__page"
-          onChange={(e) => setCategoryFilter(e.target.value)}
-          value={categoryFilter}
-        >
-          <option value="">All Categories</option>
-          <option value="DELEGATE">DELEGATE</option>
-          <option value="FACULTY">FACULTY</option>
-        </select>
-
-        {/* Honorific Filter */}
-        <select
-          className="filter-select__admin__page"
-          onChange={(e) => setHonorificFilter(e.target.value)}
-          value={honorificFilter}
-        >
-          <option value="">Select Honorific</option>
-          <option value="Mr.">Mr.</option>
-          <option value="Ms.">Ms.</option>
-          <option value="Dr.">Dr.</option>
-        </select>
+              
         <Link
   to="/admin/packages"
   style={{
