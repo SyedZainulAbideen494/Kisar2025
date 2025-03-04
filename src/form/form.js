@@ -56,9 +56,8 @@ function KisarRegistration() {
   }, []);
 
   const handleTcAgree = () => {
-    setTcAgreed(true); // Mark TC as accepted
-    setTcOpen(false);    // Close TC modal
-    setCartOpen(true);   // Now open the cart
+    setTcAgreed(true);
+    setTcOpen(false);
   };
 
   const handleChange = (e) => {
@@ -417,13 +416,9 @@ function KisarRegistration() {
           />
         </div>
 
-        <button 
-        className="select-packages-btn" 
-        onClick={() => setTcOpen(true)} 
-        style={{ marginBottom: '10px' }}
-      >
-        Select Packages
-      </button>
+        <button className="select-packages-btn" onClick={() => setCartOpen(true)} style={{marginBottom: '10px'}}>
+          Select Packages
+        </button>
 
         {selectedPackageIds.length > 0 && (
   <>
