@@ -485,6 +485,37 @@ function KisarRegistration() {
             return total + (pkg ? parseFloat(pkg.price) : 0);
           }, 0)}
         </button>
+          {/* Footer */}
+          <div 
+  className="form-lyxn-labs-footer" 
+  style={{ 
+    textAlign: "center", 
+    fontSize: "14px", 
+    fontWeight: "500", 
+    color: "#555", 
+    padding: "12px 0", 
+    borderTop: "1px solid rgba(0, 0, 0, 0.1)", 
+    background: "rgba(250, 250, 250, 0.6)", 
+    backdropFilter: "blur(10px)" // Subtle Apple-like glass effect
+  }}
+>
+  Powered by{" "}
+  <strong>
+    <a
+      style={{
+        textDecoration: "none",
+        color: "#0078ff",
+        fontWeight: "600",
+        transition: "color 0.3s ease-in-out"
+      }}
+      onMouseOver={(e) => (e.target.style.color = "#005ecb")}
+      onMouseOut={(e) => (e.target.style.color = "#0078ff")}
+    >
+      LyxnLabs
+    </a>
+  </strong>
+</div>
+
       </div>
 
       {/* Terms & Conditions Dialog */}
