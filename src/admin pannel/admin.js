@@ -121,12 +121,11 @@ function AdminPanel() {
   to="/admin/packages"
   style={{
     display: "inline-block",
-    padding: "10px 20px",
+    padding: "10px 15px",
     backgroundColor: "#0078ff",
     color: "#fff",
     textDecoration: "none",
-    borderRadius: "5px",
-    fontWeight: "bold",
+    borderRadius: "9px",
     textAlign: "center",
     transition: "background-color 0.3s ease",
   }}
