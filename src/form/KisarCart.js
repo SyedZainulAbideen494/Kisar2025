@@ -41,9 +41,13 @@ const Cart = ({ packages, onClose, onConfirm }) => {
               {mainPackages.length > 0 ? (
                 mainPackages.map((pkg) => (
                   <div key={pkg.id} className="package-item__Cart__modal">
-                    <span className="package-name__Cart__modal">
-                      {pkg.name} - ₹{pkg.price}
-                    </span>
+                   <span className="package-name__Cart__modal">
+  {pkg.name} - ₹{pkg.price}
+  <span style={{ fontSize: "14px", color: "#555", display: "block", marginTop: "4px" }}>
+    {pkg.description}
+  </span>
+</span>
+
                     <button
                       className={`toggle-btn__Cart__modal ${
                         selectedMainPackageId === pkg.id ? "selected" : ""
@@ -69,6 +73,9 @@ const Cart = ({ packages, onClose, onConfirm }) => {
                   <div key={pkg.id} className="package-item__Cart__modal">
                     <span className="package-name__Cart__modal">
                       {pkg.name} - ₹{pkg.price}
+                      <span style={{ fontSize: "14px", color: "#555", display: "block", marginTop: "4px" }}>
+    {pkg.description}
+  </span>
                     </span>
                     <button
                       className={`toggle-btn__Cart__modal ${
