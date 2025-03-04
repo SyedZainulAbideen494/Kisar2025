@@ -43,7 +43,7 @@ const Cart = ({ packages, onClose, onConfirm }) => {
                   <div key={pkg.id} className="package-item__Cart__modal">
                    <span className="package-name__Cart__modal">
   {pkg.name} - ₹{pkg.price}
-  <span style={{ fontSize: "14px", color: "#555", display: "block", marginTop: "4px" }}>
+  <span style={{ fontSize: "14px", color: "#555", display: "block", marginTop: "4px", fontWeight: '100' }}>
     {pkg.description}
   </span>
 </span>
@@ -73,7 +73,7 @@ const Cart = ({ packages, onClose, onConfirm }) => {
                   <div key={pkg.id} className="package-item__Cart__modal">
                     <span className="package-name__Cart__modal">
                       {pkg.name} - ₹{pkg.price}
-                      <span style={{ fontSize: "14px", color: "#555", display: "block", marginTop: "4px" }}>
+                      <span style={{ fontSize: "14px", color: "#555", display: "block", marginTop: "4px", fontWeight: '100' }}>
     {pkg.description}
   </span>
                     </span>
