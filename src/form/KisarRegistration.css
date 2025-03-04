@@ -196,7 +196,7 @@
 
 .tc-text li::before {
   content: "✔";
-  color: #4CAF50;
+  color: #333;
   position: absolute;
   left: 0;
   font-size: 16px;
