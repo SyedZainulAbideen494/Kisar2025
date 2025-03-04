@@ -16,6 +16,20 @@
     z-index: 1000;
 }
 
+/* Chatbot Backdrop */
+.chatbot-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    backdrop-filter: blur(5px); /* Optional: Adds a blur effect */
+    z-index: 999; /* Below chatbot window, above rest */
+    transition: opacity 0.3s ease-in-out;
+}
+
+
 .chatbot-icon:hover {
     transform: scale(1.1);
     box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);

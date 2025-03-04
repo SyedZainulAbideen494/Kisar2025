@@ -137,79 +137,75 @@ function KisarChatbot() {
 </svg>
 );
 
-  return (
-    <>
-      {/* Chat Icon (Only shown when chat is closed) */}
-      {!chatOpen && (
-  <div 
-    className="chatbot-icon" 
-    onClick={() => setChatOpen(true)}
-    aria-label="Open Chat"
-  >
-    <SparkleIcon/>
-  </div>
-)}
+return (
+  <>
+    {!chatOpen && (
+      <div 
+        className="chatbot-icon" 
+        onClick={() => setChatOpen(true)}
+        aria-label="Open Chat"
+      >
+        <SparkleIcon/>
+      </div>
+    )}
 
+    {chatOpen && <div className="chatbot-backdrop" onClick={() => setChatOpen(false)}></div>}
 
-{chatOpen && (
-  <div className={`chatbot-window ${isMobile ? "mobile-chatbot" : ""}`}>
-    <div className="chatbot-header">
-      <span style={{textAlign: 'center'}}>AI Chatbot (Kisar)</span>
-      <button onClick={() => setChatOpen(false)}>✖</button>
-    </div>
+    {chatOpen && (
+      <div className={`chatbot-window ${isMobile ? "mobile-chatbot" : ""}`}>
+        <div className="chatbot-header">
+          <span style={{textAlign: 'center'}}>AI Chatbot (Kisar)</span>
+          <button onClick={() => setChatOpen(false)}>✖</button>
+        </div>
 
-    <div className="chatbot-messages" ref={chatRef}>
-      {chatHistory.map((msg, index) => (
-        <div
-          key={index}
-          className={msg.role === "user" ? "user-message" : "ai-message"}
-          dangerouslySetInnerHTML={{
-            __html: msg.role === "model" 
-              ? DOMPurify.sanitize(formatContent(msg.parts[0].text))
-              : msg.parts[0].text,
-          }}
-        />
-      ))}
-      {loading && <div className="ai-message">Typing...</div>}
-    </div>
+        <div className="chatbot-messages" ref={chatRef}>
+          {chatHistory.map((msg, index) => (
+            <div
+              key={index}
+              className={msg.role === "user" ? "user-message" : "ai-message"}
+              dangerouslySetInnerHTML={{
+                __html: msg.role === "model" 
+                  ? DOMPurify.sanitize(formatContent(msg.parts[0].text))
+                  : msg.parts[0].text,
+              }}
+            />
+          ))}
+          {loading && <div className="ai-message">Typing...</div>}
+        </div>
 
-    <div className="chatbot-input">
-      <input
-        type="text"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        placeholder="Ask something..."
-        autoFocus
-      />
-      <button onClick={sendMessage} className="send-btn">
-        ➤
-      </button>
-    </div>
+        <div className="chatbot-input">
+          <input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Ask something..."
+            autoFocus
+          />
+          <button onClick={sendMessage} className="send-btn">
+            ➤
+          </button>
+        </div>
 
-    {/* Footer */}
-<div className="chatbot-footer">
-  Powered by{" "}
-  <strong>
-    <a
-      href="https://edusify-download.vercel.app/"
-      style={{
-        textDecoration: "none",
-        color: "#0078ff", // Set the text color instead of background
-        fontWeight: "bold",
-      }}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Edusify
-    </a>
-  </strong>
-</div>
-
-  </div>
-)}
-
-    </>
-  );
+        <div className="chatbot-footer">
+          Powered by{" "}
+          <strong>
+            <a
+              href="https://edusify-download.vercel.app/"
+              style={{
+                textDecoration: "none",
+                color: "#0078ff",
+                fontWeight: "bold",
+              }}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Edusify
+            </a>
+          </strong>
+        </div>
+      </div>
+    )}
+  </>
+);
 }
-
 export default KisarChatbot;
