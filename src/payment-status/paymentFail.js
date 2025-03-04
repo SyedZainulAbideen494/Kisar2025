@@ -1,5 +1,6 @@
 import React from "react";
-import { FaTimesCircle } from "react-icons/fa"; // Importing the cross icon from react-icons
+import Lottie from "lottie-react";
+import failAnimation from "./fail-cross.json"; // Ensure this JSON file is in the correct folder
 
 const PaymentFail = () => {
   return (
@@ -15,13 +16,9 @@ const PaymentFail = () => {
         padding: "20px",
       }}
     >
-      <FaTimesCircle
-        style={{
-          fontSize: "120px",
-          color: "#dc3545", // Red color for failure
-          marginBottom: "20px",
-        }}
-      />
+      <div style={{ width: "120px", height: "120px", marginBottom: "20px" }}>
+        <Lottie animationData={failAnimation} loop={false} />
+      </div>
       <h1
         style={{
           fontSize: "32px",

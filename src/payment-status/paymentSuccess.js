@@ -1,5 +1,6 @@
 import React from "react";
-import { FaCheckCircle } from "react-icons/fa"; 
+import Lottie from "lottie-react";
+import successAnimation from "./success-tick.json"; // Make sure this JSON file is in the correct folder
 
 const PaymentSuccess = () => {
   return (
@@ -15,13 +16,9 @@ const PaymentSuccess = () => {
         padding: "20px",
       }}
     >
-      <FaCheckCircle
-        style={{
-          fontSize: "120px",
-          color: "#28a745", // Green color for success
-          marginBottom: "20px",
-        }}
-      />
+      <div style={{ width: "120px", height: "120px", marginBottom: "20px" }}>
+        <Lottie animationData={successAnimation} loop={false} />
+      </div>
       <h1
         style={{
           fontSize: "32px",
