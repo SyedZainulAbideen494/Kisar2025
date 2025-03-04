@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./AdminPanel.css";
 import { API_ROUTES } from "../app modules/apiRoutes";
+import { useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 
 function AdminPanelPackages() {
   const [packages, setPackages] = useState([]); // Packages list
@@ -15,6 +17,7 @@ function AdminPanelPackages() {
   const [editPackage, setEditPackage] = useState(null); // State for editing package
   const [showPackageModal, setShowPackageModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const nav = useNavigate()
 
   useEffect(() => {
     fetchPackages();
@@ -80,11 +83,15 @@ function AdminPanelPackages() {
   return (
     <div className="admin-layout__admin__page">
       <h2 className="admin-title__admin__page">Admin Panel - Packages</h2>
-
-      {/* Add New Package Button */}
-      <button onClick={() => setShowPackageModal(true)} className="add-package-btn">
-        Add New Package
+  {/* Add New Package Button */}
+  <button onClick={() => nav('/admin')} className="add-package-btn"style={{marginRight: '5px'}}>
+        <FaArrowLeft/>
       </button>
+      {/* Add New Package Button */}
+      <button onClick={() => setShowPackageModal(true)} className="add-package-btn" >
+       + Add New Package
+      </button>
+
 
       {/* Packages Table */}
       <div className="custom-table__admin__page">
@@ -115,8 +122,8 @@ function AdminPanelPackages() {
                   <td>{new Date(pkg.created_at).toLocaleString()}</td>
                   <td>{new Date(pkg.updated_at).toLocaleString()}</td>
                   <td>
-                    <button onClick={() => openEditModal(pkg)} className="edit-btn">Edit</button>
-                    <button onClick={() => handleDeletePackage(pkg.id)} className="delete-btn">
+                    <button onClick={() => openEditModal(pkg)} className="edit-btn__admin">Edit</button>
+                    <button onClick={() => handleDeletePackage(pkg.id)} className="delete-btn" style={{border: 'none', marginTop: '5px'}}>
                       Delete
                     </button>
                   </td>

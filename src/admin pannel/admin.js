@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./AdminPanel.css";
 import { API_ROUTES } from "../app modules/apiRoutes";
+import { Link } from "react-router-dom";
 
 function AdminPanel() {
   const [registrations, setRegistrations] = useState([]);
@@ -113,6 +114,23 @@ function AdminPanel() {
           <option value="Ms.">Ms.</option>
           <option value="Dr.">Dr.</option>
         </select>
+        <Link
+  to="/admin/packages"
+  style={{
+    display: "inline-block",
+    padding: "10px 20px",
+    backgroundColor: "#0078ff",
+    color: "#fff",
+    textDecoration: "none",
+    borderRadius: "5px",
+    fontWeight: "bold",
+    textAlign: "center",
+    transition: "background-color 0.3s ease",
+  }}
+>
+  Add Packages
+</Link>
+
       </div>
 
       <div className="table-container">

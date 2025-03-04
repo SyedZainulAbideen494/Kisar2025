@@ -333,22 +333,42 @@
     background: linear-gradient(145deg, #d32f2f, #ff4a4a);
   }
   
-
-
-
-
   .add-package-btn {
     background: linear-gradient(145deg, #00ff85, #00d474);
     color: black;
     font-weight: bold;
-    padding: 12px;
+    padding: 12px 15px;
     border-radius: 8px;
     cursor: pointer;
     margin-bottom: 10px;
     transition: all 0.3s ease-in-out;
+    border: none;
+    font-size: 14px;
+    text-align: center;
+    display: inline-block;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.1);
+    outline: none;
   }
   
+  /* Hover Effect */
   .add-package-btn:hover {
+    background: linear-gradient(145deg, #00d474, #00b760);
+    transform: scale(1.05);
+    box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Active (Click) Effect */
+  .add-package-btn:active {
+    transform: scale(0.97);
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Focus for Accessibility */
+  .add-package-btn:focus {
+    outline: 2px solid #00ff85;
+    outline-offset: 2px;
+  }
+  tn:hover {
     background: linear-gradient(145deg, #00d474, #00ff85);
   }
   
