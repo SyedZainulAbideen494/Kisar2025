@@ -131,7 +131,7 @@ function AdminPanel() {
     transition: "background-color 0.3s ease",
   }}
 >
-  Add Packages
+  + Add Packages
 </Link>
 
       </div>
