@@ -12,6 +12,7 @@ function AdminPanel() {
   const [categoryFilter, setCategoryFilter] = useState(""); // Added category filter
   const [honorificFilter, setHonorificFilter] = useState(""); // Added honorific filter
   const [editingUser, setEditingUser] = useState(null); // Store user being edited
+  const [totalResults, setTotalResults] = useState(0); // Track the number of results
 
   useEffect(() => {
     fetchRegistrations();
@@ -23,6 +24,8 @@ function AdminPanel() {
         params: { search: searchTerm, payment_status: paymentStatus },
       });
       setRegistrations(response.data);
+      setTotalResults(response.data.length); // Set total results count
+
     } catch (error) {
       console.error("Error fetching registrations:", error);
     } finally {
@@ -132,6 +135,16 @@ function AdminPanel() {
 </Link>
 
       </div>
+      <div className="results-info">
+  <p><strong>Found {totalResults} result(s)</strong></p>
+  <p>
+   {/* <strong>Filters applied:</strong>{" "}
+     {searchTerm && `Search: "${searchTerm}" | `}
+    {paymentStatus && `Payment Status: ${paymentStatus} | `}
+    {categoryFilter && `Category: ${categoryFilter} | `}
+    {honorificFilter && `Honorific: ${honorificFilter}`}*/}
+  </p>
+</div>
 
       <div className="table-container">
   <table>

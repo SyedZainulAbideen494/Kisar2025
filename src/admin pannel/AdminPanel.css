@@ -386,3 +386,18 @@
     background: linear-gradient(145deg, #d32f2f, #ff4a4a);
   }
   
+
+  .results-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0px 12px;
+    border-radius: 6px;
+    font-size: 15px;
+    color: #222;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  .results-info strong {
+    color: #0078ff;
+  }
+  
