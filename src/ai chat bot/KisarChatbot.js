@@ -134,8 +134,6 @@ function KisarChatbot() {
 )}
 
 
-
-{/* Chat Window (Only opens when chatOpen is true) */}
 {chatOpen && (
   <div className={`chatbot-window ${isMobile ? "mobile-chatbot" : ""}`}>
     <div className="chatbot-header">
@@ -170,8 +168,29 @@ function KisarChatbot() {
         ➤
       </button>
     </div>
+
+    {/* Footer */}
+<div className="chatbot-footer">
+  Powered by{" "}
+  <strong>
+    <a
+      href="https://edusify-download.vercel.app/"
+      style={{
+        textDecoration: "none",
+        color: "#0078ff", // Set the text color instead of background
+        fontWeight: "bold",
+      }}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Edusify
+    </a>
+  </strong>
+</div>
+
   </div>
 )}
+
     </>
   );
 }

@@ -177,3 +177,13 @@
     from { opacity: 0; transform: translateX(10px); }
     to { opacity: 1; transform: translateX(0); }
 }
+
+
+.chatbot-footer {
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+    padding: 10px;
+    background: #f4f5f7;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
