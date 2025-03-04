@@ -420,17 +420,70 @@ function KisarRegistration() {
           Select Packages
         </button>
 
-        <h4>Selected Packages:</h4>
-        {selectedPackageIds.length === 0 ? (
-          <p>No packages selected</p>
-        ) : (
-          <ul>
-            {selectedPackageIds.map((pkgId) => {
-              const pkg = packages.find((p) => p.id === pkgId);
-              return pkg ? <li key={pkgId}>{pkg.name} - ₹{pkg.price}</li> : null;
-            })}
-          </ul>
-        )}
+        <h4 style={{ 
+  fontSize: "18px", 
+  fontWeight: "600", 
+  color: "#333", 
+  marginBottom: "8px", 
+  letterSpacing: "0.5px" 
+}}>
+  Selected Packages:
+</h4>
+
+{selectedPackageIds.length === 0 ? (
+  <p style={{ 
+    fontSize: "16px", 
+    color: "#888", 
+    fontWeight: "500", 
+    margin: "5px 0", 
+    textAlign: "center" 
+  }}>
+    No packages selected
+  </p>
+) : (
+  <ul style={{ 
+    listStyle: "none", 
+    padding: "0", 
+    margin: "10px", 
+    borderRadius: "12px", 
+    background: "linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(245, 245, 245, 0.6))", 
+    padding: "15px", 
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)", 
+    backdropFilter: "blur(12px)", // Soft Apple-like glass effect
+    border: "1px solid rgba(0, 0, 0, 0.1)" // Thin, premium-style border
+  }}>
+    {selectedPackageIds.map((pkgId) => {
+      const pkg = packages.find((p) => p.id === pkgId);
+      return pkg ? (
+        <li 
+          key={pkgId} 
+          style={{ 
+            fontSize: "16px", 
+            fontWeight: "500", 
+            color: "#222", 
+            padding: "8px 0", 
+            borderBottom: "1px solid rgba(0, 0, 0, 0.1)", 
+            display: "flex", 
+            justifyContent: "space-between",
+            alignItems: "center"
+          }}
+        >
+          <span>{pkg.name}</span>  
+          <span style={{ 
+            fontWeight: "600", 
+            color: "#0078ff", 
+            background: "rgba(0, 120, 255, 0.1)", 
+            padding: "4px 10px", 
+            borderRadius: "6px" 
+          }}>
+            ₹{pkg.price}
+          </span>
+        </li>
+      ) : null;
+    })}
+  </ul>
+)}
+
 
         <button onClick={handlePaymentInstamojo} disabled={loading}>
           <FaRegCreditCard className="button-icon" /> Pay ₹

@@ -137,7 +137,7 @@ function KisarChatbot() {
 {chatOpen && (
   <div className={`chatbot-window ${isMobile ? "mobile-chatbot" : ""}`}>
     <div className="chatbot-header">
-      <span>AI Chatbot (Kisar)</span>
+      <span style={{textAlign: 'center'}}>AI Chatbot (Kisar)</span>
       <button onClick={() => setChatOpen(false)}>✖</button>
     </div>
 
