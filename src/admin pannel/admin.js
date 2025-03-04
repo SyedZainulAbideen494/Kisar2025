@@ -8,6 +8,8 @@ function AdminPanel() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [paymentStatus, setPaymentStatus] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState(""); // Added category filter
+  const [honorificFilter, setHonorificFilter] = useState(""); // Added honorific filter
   const [editingUser, setEditingUser] = useState(null); // Store user being edited
 
   useEffect(() => {
@@ -88,6 +90,29 @@ function AdminPanel() {
           <option value="pending">Pending</option>
           <option value="failed">Failed</option>
         </select>
+
+                {/* Category Filter */}
+                <select
+          className="filter-select__admin__page"
+          onChange={(e) => setCategoryFilter(e.target.value)}
+          value={categoryFilter}
+        >
+          <option value="">All Categories</option>
+          <option value="DELEGATE">DELEGATE</option>
+          <option value="FACULTY">FACULTY</option>
+        </select>
+
+        {/* Honorific Filter */}
+        <select
+          className="filter-select__admin__page"
+          onChange={(e) => setHonorificFilter(e.target.value)}
+          value={honorificFilter}
+        >
+          <option value="">Select Honorific</option>
+          <option value="Mr.">Mr.</option>
+          <option value="Ms.">Ms.</option>
+          <option value="Dr.">Dr.</option>
+        </select>
       </div>
 
       <div className="table-container">
@@ -140,9 +165,10 @@ function AdminPanel() {
             <td>{user.payment_status}</td>
             <td>{user.amount}</td>
             <td>{user.currency}</td>
-            <td>{user.payment_date}</td>
+            <td>{new Date(user.payment_date).toLocaleString("en-IN", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true })}</td>
+
             <td>
-              <button onClick={() => handleEditClick(user)} className="edit-btn__admin">Edit</button>
+              <button onClick={() => handleEditClick(user)} className="edit-btn__admin">Edit</button><br/>
               <button onClick={() => handleDelete(user.id)} className="delete-btn__admin">Delete</button>
             </td>
           </tr>

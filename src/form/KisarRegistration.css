@@ -135,139 +135,141 @@
   font-size: 18px;
   margin-right: 10px;
 }
-
-
-/* Terms & Conditions Modal */
+/* Terms & Conditions Modal - Enhanced */
 .tc-modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  padding: 10px; /* Padding for edge-to-edge screens */
+  padding: 10px;
+  backdrop-filter: blur(8px); /* Smooth blur effect */
 }
 
 .tc-content {
-  background: #fff;
-  border-radius: 15px;
-  padding: 20px;
-  max-width: 500px;
-  width: 100%; /* Full width on mobile */
-  max-height: 80vh; /* Limit height to 80% of viewport */
-  overflow-y: auto; /* Scrollable content */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 480px;
+  width: 100%;
+  max-height: 75vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   text-align: left;
+  font-family: "Inter", sans-serif; /* Modern font */
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Smooth fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .tc-content h2 {
-  font-size: 22px; /* Slightly smaller on mobile */
-  color: #333;
-  margin-bottom: 15px;
+  font-size: 20px;
+  color: #222;
+  margin-bottom: 16px;
   text-align: center;
+  font-weight: 600;
 }
 
 .tc-text {
-  font-size: 15px; /* Reduced for mobile readability */
-  color: #555;
-  line-height: 1.5;
+  font-size: 15px;
+  color: #444;
+  line-height: 1.6;
   margin-bottom: 20px;
 }
 
 .tc-text ul {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
 }
 
 .tc-text li {
-  margin-bottom: 12px;
-  padding-left: 25px;
+  margin-bottom: 10px;
+  padding-left: 22px;
   position: relative;
 }
 
-.tc-text li:before {
+.tc-text li::before {
   content: "✔";
   color: #4CAF50;
   position: absolute;
-  left: 5px; /* Adjusted for smaller padding */
-  font-size: 16px; /* Slightly smaller checkmark */
-}
-
-.tc-buttons {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px; /* Space between buttons */
+  left: 0;
+  font-size: 16px;
 }
 
 /* Buttons */
+.tc-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .tc-cancel, .tc-agree {
-  padding: 10px 10px;
+  padding: 12px;
   border: none;
-  border-radius: 5px;
-  font-size: 15px; /* Adjusted for mobile */
+  border-radius: 6px;
+  font-size: 15px;
   cursor: pointer;
-  transition: background 0.3s ease;
-  flex: 1; /* Equal width buttons */
+  transition: all 0.3s ease;
+  flex: 1;
+  font-weight: 500;
 }
 
 .tc-cancel {
-  background: #f44336;
+  background: #e74c3c;
   color: white;
 }
 
 .tc-cancel:hover {
-  background: #d32f2f;
+  background: #c0392b;
 }
 
 .tc-agree {
-  background: #4CAF50;
+  background: #0078ff;
   color: white;
 }
 
-.tc-agree:hover {
-  background: #388E3C;
-}
 
-/* Mobile Adjustments */
+
+/* Mobile Responsiveness */
 @media (max-width: 480px) {
   .tc-content {
-    padding: 15px; /* Reduced padding on mobile */
-    max-width: 100%; /* Full width */
-    margin: 0 10px; /* Margin for edge spacing */
+    padding: 18px;
+    max-width: 95%;
   }
 
   .tc-content h2 {
-    font-size: 20px; /* Smaller title */
+    font-size: 18px;
   }
 
   .tc-text {
-    font-size: 14px; /* Smaller text */
+    font-size: 14px;
   }
 
   .tc-text li {
-    margin-bottom: 10px;
-    padding-left: 20px; /* Reduced indent */
+    padding-left: 18px;
   }
 
-  .tc-text li:before {
-    font-size: 14px; /* Smaller checkmark */
-    left: 2px;
+  .tc-text li::before {
+    font-size: 14px;
   }
 
   .tc-buttons {
-    flex-direction: column; /* Stack buttons vertically */
-    gap: 15px; /* Increased gap for touch targets */
+    flex-direction: column;
+    gap: 10px;
   }
 
   .tc-cancel, .tc-agree {
-    padding: 12px; /* Slightly taller for touch */
-    font-size: 14px; /* Smaller font */
+    padding: 14px;
+    font-size: 14px;
   }
 }
+
 
 /* 📱 Mobile Responsiveness */
 @media (max-width: 480px) {
