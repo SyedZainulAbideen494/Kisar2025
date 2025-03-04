@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { FaAssistiveListeningSystems, FaComment, FaTrashAlt } from "react-icons/fa";
+import { FaAssistiveListeningSystems, FaComment, FaHeadset, FaTrashAlt } from "react-icons/fa";
 import "./KisarChatbot.css";
 import { API_ROUTES } from "../app modules/apiRoutes";
 import DOMPurify from "dompurify";
@@ -145,7 +145,7 @@ return (
         onClick={() => setChatOpen(true)}
         aria-label="Open Chat"
       >
-        <SparkleIcon/>
+        <FaHeadset/>
       </div>
     )}
 
