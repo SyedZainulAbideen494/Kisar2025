@@ -3,24 +3,40 @@ import { FaPlus, FaMinus, FaShoppingCart } from "react-icons/fa";
 import "./KisarCart.css";
 
 const Cart = ({ packages, onClose, onConfirm }) => {
-  const [selectedMainPackageId, setSelectedMainPackageId] = useState(null); // Single Main package ID
-  const [selectedAddonPackageId, setSelectedAddonPackageId] = useState(null); // Single Addon package ID
+  const [selectedMainPackageId, setSelectedMainPackageId] = useState(null);
+  const [selectedAddonPackageId, setSelectedAddonPackageId] = useState(null);
+  const [selectedWorkshopPackageIds, setSelectedWorkshopPackageIds] = useState([]); // Multiple selection
 
   const handleMainPackageToggle = (pkgId) => {
-    setSelectedMainPackageId((prev) => (prev === pkgId ? null : pkgId)); // Toggle or select new
+    setSelectedMainPackageId((prev) => (prev === pkgId ? null : pkgId));
+    setSelectedAddonPackageId(null); // Reset Addon if Main is changed
+    setSelectedWorkshopPackageIds([]); // Reset Workshops if Main is changed
   };
 
   const handleAddonPackageToggle = (pkgId) => {
-    if (!selectedMainPackageId) return; // Disable Addon selection without Main
-    setSelectedAddonPackageId((prev) => (prev === pkgId ? null : pkgId)); // Toggle or select new
+    if (!selectedMainPackageId) return;
+    setSelectedAddonPackageId((prev) => (prev === pkgId ? null : pkgId));
   };
-  console.log("packages",packages)
+
+  const handleWorkshopPackageToggle = (pkgId) => {
+    if (!selectedMainPackageId) return;
+    setSelectedWorkshopPackageIds((prev) =>
+      prev.includes(pkgId) ? prev.filter((id) => id !== pkgId) : [...prev, pkgId]
+    );
+  };
+
+  console.log("packages", packages);
   const filteredPackages = packages.filter((pkg) => pkg.active === 1);
   const mainPackages = filteredPackages.filter((pkg) => pkg.type === "MAIN");
   const addonPackages = filteredPackages.filter((pkg) => pkg.type === "ADDON");
+  const workshopPackages = filteredPackages.filter((pkg) => pkg.type === "WORKSHOP");
 
-  const totalPrice = [selectedMainPackageId, selectedAddonPackageId]
-    .filter(Boolean) // Remove nulls
+  const totalPrice = [
+    selectedMainPackageId,
+    selectedAddonPackageId,
+    ...selectedWorkshopPackageIds, // Include multiple Workshops
+  ]
+    .filter(Boolean)
     .reduce((total, pkgId) => {
       const pkg = filteredPackages.find((p) => p.id === pkgId);
       return total + (pkg ? parseFloat(pkg.price) : 0);
@@ -41,13 +57,20 @@ const Cart = ({ packages, onClose, onConfirm }) => {
               {mainPackages.length > 0 ? (
                 mainPackages.map((pkg) => (
                   <div key={pkg.id} className="package-item__Cart__modal">
-                   <span className="package-name__Cart__modal">
-  {pkg.name} - ₹{pkg.price}
-  <span style={{ fontSize: "14px", color: "#555", display: "block", marginTop: "4px", fontWeight: '100' }}>
-    {pkg.description}
-  </span>
-</span>
-
+                    <span className="package-name__Cart__modal">
+                      {pkg.name} - ₹{pkg.price}
+                      <span
+                        style={{
+                          fontSize: "14px",
+                          color: "#555",
+                          display: "block",
+                          marginTop: "4px",
+                          fontWeight: "100",
+                        }}
+                      >
+                        {pkg.description}
+                      </span>
+                    </span>
                     <button
                       className={`toggle-btn__Cart__modal ${
                         selectedMainPackageId === pkg.id ? "selected" : ""
@@ -73,16 +96,24 @@ const Cart = ({ packages, onClose, onConfirm }) => {
                   <div key={pkg.id} className="package-item__Cart__modal">
                     <span className="package-name__Cart__modal">
                       {pkg.name} - ₹{pkg.price}
-                      <span style={{ fontSize: "14px", color: "#555", display: "block", marginTop: "4px", fontWeight: '100' }}>
-    {pkg.description}
-  </span>
+                      <span
+                        style={{
+                          fontSize: "14px",
+                          color: "#555",
+                          display: "block",
+                          marginTop: "4px",
+                          fontWeight: "100",
+                        }}
+                      >
+                        {pkg.description}
+                      </span>
                     </span>
                     <button
                       className={`toggle-btn__Cart__modal ${
                         selectedAddonPackageId === pkg.id ? "selected" : ""
                       } ${!selectedMainPackageId ? "disabled" : ""}`}
                       onClick={() => handleAddonPackageToggle(pkg.id)}
-                      disabled={!selectedMainPackageId} // Disable if no Main package selected
+                      disabled={!selectedMainPackageId}
                     >
                       {selectedAddonPackageId === pkg.id ? <FaMinus /> : <FaPlus />}
                     </button>
@@ -90,6 +121,44 @@ const Cart = ({ packages, onClose, onConfirm }) => {
                 ))
               ) : (
                 <p>No addon packages available</p>
+              )}
+            </div>
+          </div>
+
+          {/* Workshop Packages Section */}
+          <div className="package-section__Cart__modal">
+            <h4 className="section-title__Cart__modal">Workshop Packages (Select Multiple - Optional)</h4>
+            <div className="package-list__Cart__modal">
+              {workshopPackages.length > 0 ? (
+                workshopPackages.map((pkg) => (
+                  <div key={pkg.id} className="package-item__Cart__modal">
+                    <span className="package-name__Cart__modal">
+                      {pkg.name} - ₹{pkg.price}
+                      <span
+                        style={{
+                          fontSize: "14px",
+                          color: "#555",
+                          display: "block",
+                          marginTop: "4px",
+                          fontWeight: "100",
+                        }}
+                      >
+                        {pkg.description}
+                      </span>
+                    </span>
+                    <button
+                      className={`toggle-btn__Cart__modal ${
+                        selectedWorkshopPackageIds.includes(pkg.id) ? "selected" : ""
+                      } ${!selectedMainPackageId ? "disabled" : ""}`}
+                      onClick={() => handleWorkshopPackageToggle(pkg.id)}
+                      disabled={!selectedMainPackageId}
+                    >
+                      {selectedWorkshopPackageIds.includes(pkg.id) ? <FaMinus /> : <FaPlus />}
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <p>No workshop packages available</p>
               )}
             </div>
           </div>
@@ -103,8 +172,12 @@ const Cart = ({ packages, onClose, onConfirm }) => {
           </button>
           <button
             className="confirm-btn__Cart__modal"
-            onClick={() => onConfirm([selectedMainPackageId, selectedAddonPackageId].filter(Boolean))}
-            disabled={!selectedMainPackageId} // Disable Confirm if no Main package
+            onClick={() =>
+              onConfirm(
+                [selectedMainPackageId, selectedAddonPackageId, ...selectedWorkshopPackageIds].filter(Boolean)
+              )
+            }
+            disabled={!selectedMainPackageId}
           >
             Confirm
           </button>

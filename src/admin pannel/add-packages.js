@@ -169,16 +169,30 @@ function AdminPanelPackages() {
                 onChange={(e) => setNewPackage({ ...newPackage, active: e.target.checked })}
               />
             </label>
-            <label>
-              Type:
-              <select
-                value={newPackage.type}
-                onChange={(e) => setNewPackage({ ...newPackage, type: e.target.value })}
-              >
-                <option value="MAIN">Main</option>
-                <option value="ADDON">Addon</option>
-              </select>
-            </label>
+            <label style={{ color: "#fff", fontWeight: "bold", display: "block", marginBottom: "8px" }}>
+  Type:
+  <select
+    value={newPackage.type}
+    onChange={(e) => setNewPackage({ ...newPackage, type: e.target.value })}
+    style={{
+      backgroundColor: "#333", // Dark background
+      color: "#fff", // Light text
+      border: "1px solid #555", // Subtle border
+      padding: "8px",
+      borderRadius: "4px",
+      outline: "none",
+      cursor: "pointer",
+      fontSize: "16px",
+      width: "100%",
+      marginTop: "4px",
+    }}
+  >
+    <option value="MAIN" style={{ backgroundColor: "#222", color: "#fff" }}>Main</option>
+    <option value="ADDON" style={{ backgroundColor: "#222", color: "#fff" }}>Addon</option>
+    <option value="WORKSHOP" style={{ backgroundColor: "#222", color: "#fff" }}>Workshop</option>
+  </select>
+</label>
+
             <div className="modal-buttons">
               <button onClick={handleAddPackage} className="save-btn">Add Package</button>
               <button onClick={() => setShowPackageModal(false)} className="cancel-btn">Cancel</button>
