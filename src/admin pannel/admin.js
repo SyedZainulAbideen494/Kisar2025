@@ -118,7 +118,7 @@ function AdminPanel() {
       </div>
       <div className="results-info">
   <p><strong>Total registrations = {totalResults}</strong></p>
-  <p><strong>Total Amount Paid = ₹{totalAmount.toFixed(2)}</strong></p>
+          <p><strong>Total Amount Paid = ₹{totalAmount.toFixed(2)}</strong></p>
 
   <p>
    {/* <strong>Filters applied:</strong>{" "}
@@ -147,7 +147,7 @@ function AdminPanel() {
         <th>Med Council No.</th>
         <th>Category</th>
         <th>Type</th>
-        <th>Package IDs</th>
+        <th>Package</th>
         <th>Payment ID</th>
         <th>Payment Status</th>
         <th>Amount</th>
@@ -174,7 +174,7 @@ function AdminPanel() {
             <td>{user.med_council_number}</td>
             <td>{user.category}</td>
             <td>{user.type}</td>
-            <td>{user.package_ids}</td>
+            <td>{user.package_names}</td>
             <td>{user.payment_id}</td>
             <td>{user.payment_status}</td>
             <td>{user.amount}</td>
