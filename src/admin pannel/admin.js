@@ -8,11 +8,12 @@ function AdminPanel() {
   const [registrations, setRegistrations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [paymentStatus, setPaymentStatus] = useState("");
+  const [paymentStatus, setPaymentStatus] = useState("success");
   const [categoryFilter, setCategoryFilter] = useState(""); // Added category filter
   const [honorificFilter, setHonorificFilter] = useState(""); // Added honorific filter
   const [editingUser, setEditingUser] = useState(null); // Store user being edited
   const [totalResults, setTotalResults] = useState(0); // Track the number of results
+  const [totalAmount, setTotalAmount] = useState(0); // Track the total amount paid
 
   useEffect(() => {
     fetchRegistrations();
@@ -25,7 +26,9 @@ function AdminPanel() {
       });
       setRegistrations(response.data);
       setTotalResults(response.data.length); // Set total results count
-
+   // Calculate total amount paid
+   const total = response.data.reduce((acc, user) => acc + parseFloat(user.amount || 0), 0);
+   setTotalAmount(total); // Update total amount paid
     } catch (error) {
       console.error("Error fetching registrations:", error);
     } finally {
@@ -114,7 +117,9 @@ function AdminPanel() {
 
       </div>
       <div className="results-info">
-  <p><strong>Found {totalResults} result(s)</strong></p>
+  <p><strong>Total registrations = {totalResults}</strong></p>
+  <p><strong>Total Amount Paid = ₹{totalAmount.toFixed(2)}</strong></p>
+
   <p>
    {/* <strong>Filters applied:</strong>{" "}
      {searchTerm && `Search: "${searchTerm}" | `}
