@@ -174,7 +174,7 @@ function AdminPanel() {
             <td>{user.med_council_number}</td>
             <td>{user.category}</td>
             <td>{user.type}</td>
-            <td>{user.package_names}</td>
+            <td>{user.package_names.join(', ')}</td>
             <td>{user.payment_id}</td>
             <td>{user.payment_status}</td>
             <td>{user.amount}</td>
