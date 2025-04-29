@@ -3,6 +3,7 @@ import axios from "axios";
 import "./AdminPanel.css";
 import { API_ROUTES } from "../app modules/apiRoutes";
 import { Link } from "react-router-dom";
+import PackageList from "./PackageList";
 
 function AdminPanel() {
   const [registrations, setRegistrations] = useState([]);
@@ -76,7 +77,6 @@ function AdminPanel() {
   return (
     <div className="admin-layout__admin__page">
       <h2 className="admin-title__admin__page">Admin Panel - Event Registrations</h2>
-
       {/* Search & Filter Section */}
       <div className="search-filters__admin__page">
         <input
@@ -114,6 +114,7 @@ function AdminPanel() {
 >
   + Add Packages
 </Link>
+<PackageList/>
 
       </div>
       <div className="results-info">
