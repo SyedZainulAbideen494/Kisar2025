@@ -1,54 +1,278 @@
 import React, { useState } from 'react';
 import { API_ROUTES } from '../app modules/apiRoutes';
 
-const inputStyle = {
-  padding: '12px',
-  width: '100%',
-  maxWidth: '400px',
-  fontSize: '16px',
-  borderRadius: '10px',
-  border: '1px solid #ccc',
-  marginBottom: '20px',
-  transition: 'all 0.3s ease-in-out',
-};
+// CSS styles defined inline for the component
+const styles = `
+  .container {
+    min-height: 100vh;
+    background: #1a1a1a;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    font-family: Arial, sans-serif;
+  }
 
-const cardStyle = {
-  padding: '15px',
-  borderRadius: '12px',
-  marginBottom: '15px',
-  background: '#2C2C2E',
-  color: 'white',
-  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-};
+  .content {
+    width: 100%;
+    max-width: 900px;
+  }
 
-const cardHoverStyle = {
-  transform: 'scale(1.05)',
-  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-};
+  .title {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
 
-const upgradeBtn = {
-  padding: '10px 20px',
-  border: 'none',
-  borderRadius: '8px',
-  background: '#0A84FF',
-  color: 'white',
-  cursor: 'pointer',
-  fontWeight: 500,
-  transition: 'background 0.3s ease, transform 0.3s ease',
-};
+  .search-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
 
-const disabledBtn = {
-  ...upgradeBtn,
-  background: '#555',
-  cursor: 'not-allowed',
-  opacity: 0.6,
-};
+  .search-input {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 6px;
+    border: 1px solid #444;
+    background: #2a2a2a;
+    color: #fff;
+    font-size: 0.95rem;
+    outline: none;
+  }
 
-const loadingStyle = {
-  textAlign: 'center',
-  padding: '20px',
-  color: '#ddd',
-};
+  .search-input:focus {
+    border-color: #1e90ff;
+  }
+
+  .search-input::placeholder {
+    color: #888;
+  }
+
+  .search-button, .confirm-button, .cancel-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .search-button {
+    background: #1e90ff;
+    color: #fff;
+  }
+
+  .search-button:hover:not(:disabled) {
+    background: #1c86ee;
+  }
+
+  .search-button:disabled {
+    background: #555;
+    cursor: not-allowed;
+  }
+
+  .error {
+    background: #d32f2f;
+    color: #fff;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+
+  .loading {
+    text-align: center;
+    padding: 1.5rem;
+    color: #888;
+  }
+
+  .spinner {
+    width: 2rem;
+    height: 2rem;
+    border: 4px solid #1e90ff;
+    border-top: 4px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .section {
+    background: #2a2a2a;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .user-details {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .user-details span {
+    font-weight: 500;
+  }
+
+  .package-list, .upgrade-list {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .package-item, .upgrade-item {
+    background: #333;
+    padding: 1rem;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s;
+  }
+
+  .package-item:hover, .upgrade-item:hover {
+    background: #3a3a3a;
+  }
+
+  .package-info h4 {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .package-info p {
+    color: #bbb;
+    font-size: 0.85rem;
+  }
+
+  .package-status {
+    color: #00ff00;
+    font-size: 0.85rem;
+  }
+
+  .upgrade-button, .owned-button, .ineligible-button {
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .upgrade-button {
+    background: #1e90ff;
+    color: #fff;
+  }
+
+  .upgrade-button:hover {
+    background: #1c86ee;
+  }
+
+  .owned-button {
+    background: #388e3c;
+    color: #fff;
+  }
+
+  .ineligible-button {
+    background: #555;
+    color: #fff;
+    cursor: not-allowed;
+  }
+
+  .no-packages {
+    color: #888;
+    font-size: 0.9rem;
+  }
+
+  .confirm-section p {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+
+  .confirm-button {
+    background: #1e90ff;
+    color: #fff;
+  }
+
+  .confirm-button:hover:not(:disabled) {
+    background: #1c86ee;
+  }
+
+  .confirm-button:disabled {
+    background: #555;
+    cursor: not-allowed;
+  }
+
+  .cancel-button {
+    background: #555;
+    color: #fff;
+  }
+
+  .cancel-button:hover {
+    background: #666;
+  }
+
+  .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 640px) {
+    .search-container {
+      flex-direction: row;
+    }
+
+    .title {
+      font-size: 2rem;
+    }
+
+    .user-details {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .section {
+      padding: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+    }
+
+    .package-info h4 {
+      font-size: 1rem;
+    }
+
+    .package-info p, .package-status, .upgrade-button, .owned-button, .ineligible-button {
+      font-size: 0.9rem;
+    }
+
+    .button-group {
+      flex-direction: row;
+    }
+  }
+`;
+
+// Inject CSS into the document
+const styleSheet = document.createElement('style');
+styleSheet.textContent = styles;
+document.head.appendChild(styleSheet);
 
 const PACKAGE_RANKS = {
   1: 1, // Non-Residential
@@ -62,115 +286,190 @@ const UpgradePackagesPage = () => {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [selectedPackage, setSelectedPackage] = useState(null);
 
-  const fetchUserPackages = () => {
+  const fetchUserPackages = async () => {
+    if (!query.trim()) {
+      setError('Please enter a search term');
+      return;
+    }
     setLoading(true);
-    fetch(`${API_ROUTES.baseUrl}/api/user-packages?query=${encodeURIComponent(query)}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          setError(data.error);
-          setUserData(null);
-        } else {
-          setError('');
-          setUserData(data);
-        }
-        setLoading(false);
-      });
+    setError('');
+    try {
+      const res = await fetch(`${API_ROUTES.baseUrl}/api/user-packages?query=${encodeURIComponent(query)}`);
+      const data = await res.json();
+      if (data.error) {
+        setError(data.error);
+        setUserData(null);
+      } else {
+        setUserData(data);
+        setSelectedPackage(null);
+      }
+    } catch {
+      setError('Failed to fetch data. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
+  // Derive userPackages from allPackages and package_ids
+  const userPackages = userData?.user?.package_ids?.length && userData?.allPackages?.length
+    ? userData.allPackages.filter(pkg => userData.user.package_ids.includes(pkg.id))
+    : [];
+  console.log(userData);
+  
+
   const getHighestOwnedRank = () => {
-    return Math.max(...userData.userPackages.map((p) => PACKAGE_RANKS[p.id] || 0));
+    if (!userPackages.length) return 0;
+    return Math.max(...userPackages.map((p) => PACKAGE_RANKS[p.id] || 0));
   };
 
   const isValidUpgrade = (pkgId) => {
     const rank = PACKAGE_RANKS[pkgId];
-    const ownedRanks = userData.userPackages.map((p) => PACKAGE_RANKS[p.id]);
-    const highestOwned = Math.max(...ownedRanks);
-
+    const ownedRanks = userPackages.map((p) => PACKAGE_RANKS[p.id]) || [];
+    const highestOwned = Math.max(...ownedRanks, 0);
     return (
-      !ownedRanks.includes(rank) && // Not already owned
-      rank > highestOwned && // Only allow upgrades
-      pkgId !== 1 // Cannot downgrade to Non-Res (ID 1)
+      !ownedRanks.includes(rank) &&
+      rank > highestOwned &&
+      pkgId !== 1
     );
   };
 
-  const handleUpgrade = (pkgId) => {
-    // Trigger the upgrade logic here, e.g., calling an API
-    alert(`Upgrade to package ${pkgId} initiated.`);
+  const handleUpgrade = async (pkgId) => {
+    setLoading(true);
+    try {
+      // Placeholder for actual upgrade API call
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API call
+      alert(`Upgrade to package ${pkgId} successful!`);
+      fetchUserPackages(); // Refresh data
+    } catch {
+      setError('Failed to process upgrade. Please try again.');
+    } finally {
+      setLoading(false);
+      setSelectedPackage(null);
+    }
   };
 
   return (
-    <div
-      style={{
-        padding: '40px',
-        background: '#1C1C1E',
-        minHeight: '100vh',
-        color: 'white',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
-      <h2>Upgrade Your Package</h2>
-      <input
-        type="text"
-        placeholder="Enter email or phone"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        style={inputStyle}
-      />
-      <br />
-      <button onClick={fetchUserPackages} style={upgradeBtn}>
-        Search
-      </button>
-
-      {loading && <div style={loadingStyle}>Loading...</div>}
-      {error && <p style={{ color: 'red', marginTop: '20px' }}>{error}</p>}
-
-      {userData && (
-        <div style={{ marginTop: '40px', width: '100%', maxWidth: '800px' }}>
-          <h3>User: {userData.user.first_name}</h3>
-          <h4>Current Packages:</h4>
-          {userData.userPackages.map((pkg) => (
-            <div
-              key={pkg.id}
-              style={{
-                ...cardStyle,
-                ...cardHoverStyle,
-              }}
-            >
-              <strong>{pkg.name}</strong> — ₹{pkg.price}
-            </div>
-          ))}
-
-          <h4>Available Upgrades:</h4>
-          {userData.allPackages.map((pkg) => {
-            const owns = userData.userPackages.find((p) => p.id === pkg.id);
-            const disabled = !isValidUpgrade(pkg.id);
-
-            return (
-              <div
-                key={pkg.id}
-                style={{
-                  ...cardStyle,
-                  ...cardHoverStyle,
-                }}
-              >
-                <strong>{pkg.name}</strong> — ₹{pkg.price}
-                <br />
-                <button
-                  style={disabled ? disabledBtn : upgradeBtn}
-                  disabled={disabled}
-                  onClick={() => !disabled && handleUpgrade(pkg.id)}
-                >
-                  {owns ? 'Already Owned' : disabled ? 'Not Eligible' : 'Upgrade'}
-                </button>
-              </div>
-            );
-          })}
+    <div className="container">
+      <div className="content">
+        <h1 className="title">Upgrade Your Package</h1>
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search by email or phone"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="search-input"
+          />
+          <button
+            onClick={fetchUserPackages}
+            disabled={loading}
+            className="search-button"
+          >
+            {loading ? 'Searching...' : 'Search'}
+          </button>
         </div>
-      )}
+
+        {error && (
+          <div className="error">
+            {error}
+          </div>
+        )}
+
+        {loading && !error && (
+          <div className="loading">
+            <div className="spinner"></div>
+          </div>
+        )}
+
+        {userData && (
+          <div>
+            <div className="section">
+              <h2 className="section-title">User Details</h2>
+              <div className="user-details">
+                <p><span>Name:</span> {userData.user.honorific || ''} {userData.user.first_name} {userData.user.middle_name || ''} {userData.user.last_name || ''}</p>
+                <p><span>Email:</span> {userData.user.email}</p>
+                <p><span>Phone:</span> {userData.user.phone}</p>
+              </div>
+              <h3 className="section-title">Current Packages</h3>
+              {userPackages.length ? (
+                <div className="package-list">
+                  {userPackages.map((pkg) => (
+                    <div key={pkg.id} className="package-item">
+                      <div className="package-info">
+                        <h4>{pkg.name}</h4>
+                        <p>₹{pkg.price.toLocaleString()}</p>
+                      </div>
+                      <span className="package-status">Active</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="no-packages">No main packages assigned.</p>
+              )}
+            </div>
+
+            <div className="section">
+              <h2 className="section-title">Available Upgrades</h2>
+              {userData.allPackages?.length ? (
+                <div className="upgrade-list">
+                  {userData.allPackages.map((pkg) => {
+                    const owns = userPackages.find((p) => p.id === pkg.id);
+                    const disabled = !isValidUpgrade(pkg.id);
+                    return (
+                      <div key={pkg.id} className="upgrade-item">
+                        <div className="package-info">
+                          <h4>{pkg.name}</h4>
+                          <p>₹{pkg.price.toLocaleString()}</p>
+                        </div>
+                        <button
+                          onClick={() => !disabled && !owns && setSelectedPackage(pkg.id)}
+                          disabled={disabled || owns}
+                          className={
+                            owns ? 'owned-button' :
+                            disabled ? 'ineligible-button' : 'upgrade-button'
+                          }
+                        >
+                          {owns ? 'Currently Owned' : disabled ? 'Not Eligible' : 'Upgrade to this package'}
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <p className="no-packages">No main packages available for upgrade.</p>
+              )}
+            </div>
+
+            {selectedPackage && (
+              <div className="section confirm-section">
+                <h2 className="section-title">Confirm Upgrade</h2>
+                <p>
+                  Upgrade to{' '}
+                  <strong>{userData.allPackages.find((p) => p.id === selectedPackage)?.name || 'Unknown'}</strong> for{' '}
+                  ₹{userData.allPackages.find((p) => p.id === selectedPackage)?.price.toLocaleString() || '0'}.
+                </p>
+                <div className="button-group">
+                  <button
+                    onClick={() => handleUpgrade(selectedPackage)}
+                    disabled={loading}
+                    className="confirm-button"
+                  >
+                    {loading ? 'Processing...' : 'Confirm Upgrade'}
+                  </button>
+                  <button
+                    onClick={() => setSelectedPackage(null)}
+                    className="cancel-button"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
