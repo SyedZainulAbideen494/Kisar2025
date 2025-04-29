@@ -110,7 +110,15 @@ const PackageModal = () => {
                 </div>
               ))
             )}
+             {/* Total registrations display */}
+             <div style={{ ...listItemStyle, background: '#3A3A3C', marginTop: '30px' }}>
+                <h3 style={{ fontSize: '18px', marginBottom: '5px' }}>Total</h3>
+                <p style={{ fontSize: '20px', color: '#0A84FF', fontWeight: 'bold' }}>
+                  {packages.reduce((acc, curr) => acc + (curr.reg_count || 0), 0)}
+                </p>
+              </div>
           </div>
+          
         </div>
       )}
     </>
