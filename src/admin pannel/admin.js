@@ -4,6 +4,7 @@ import "./AdminPanel.css";
 import { API_ROUTES } from "../app modules/apiRoutes";
 import { Link } from "react-router-dom";
 import PackageList from "./PackageList";
+import PackageModal from "./PackageList";
 
 function AdminPanel() {
   const [registrations, setRegistrations] = useState([]);
@@ -114,7 +115,7 @@ function AdminPanel() {
 >
   + Add Packages
 </Link>
-<PackageList/>
+<PackageModal totalRegistrations={totalResults} totalAmount={totalAmount} />
 
       </div>
       <div className="results-info">
