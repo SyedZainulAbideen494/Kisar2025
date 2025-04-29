@@ -12,6 +12,7 @@ import AdminPanel from "./admin pannel/admin";
 import AdminPanelPackages from "./admin pannel/add-packages";
 import PaymentSuccess from "./payment-status/paymentSuccess";
 import PaymentFail from "./payment-status/paymentFail";
+import UpgradePackagesPage from "./upgrade package/UpgradePackagesPage";
 
 
 const router = createBrowserRouter([
@@ -20,7 +21,8 @@ const router = createBrowserRouter([
   {path: '/admin/packages', element: <AdminPanelPackages/>},
   { path: '*', element: <KisarRegistration /> },
   { path: "/payment-success", element: <PaymentSuccess /> },
-  { path: "/payment-fail", element: <PaymentFail /> }
+  { path: "/payment-fail", element: <PaymentFail /> },
+  {path: '/upgrade-package', element: <UpgradePackagesPage/>}
 ]);
 
 

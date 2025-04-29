@@ -88,7 +88,7 @@ const PackageModal = () => {
     <>
       {/* Button to open modal */}
       <button style={buttonStyle} onClick={openModal}>
-        View Packages
+        View Stats
       </button>
 
       {/* Modal */}
