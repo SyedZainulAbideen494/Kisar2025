@@ -374,6 +374,7 @@ const UpgradePackagesPage = () => {
   };
 
   const getDifferenceAmount = (pkgId) => {
+    console.log("User data fetched", userData);
     const pkg = userData.allPackages.find((p) => p.id === pkgId);
     if (!pkg || !userData.user.amount || userData.user.fees === undefined) return 0;
     const adjustedCurrentAmount = parseFloat(userData.user.amount) - (parseFloat(userData.user.fees) + 0.18 * parseFloat(userData.user.fees));
@@ -502,7 +503,7 @@ const UpgradePackagesPage = () => {
                             disabled ? 'ineligible-button' : 'upgrade-button'
                           }
                         >
-                          {owns ? 'Owned' : disabled ? 'Not Eligible' : 'Select'}
+                          {owns ? 'Currently Owned' : disabled ? 'Not Eligible' : 'Upgrade to this Package'}
                         </button>
                       </div>
                     );
