@@ -200,9 +200,46 @@ const styles = `
     font-size: 0.9rem;
   }
 
-  .confirm-section p {
-    font-size: 0.95rem;
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .modal {
+    background: #2a2a2a;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
     margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .modal-content p {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .modal-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
   .confirm-button {
@@ -226,12 +263,6 @@ const styles = `
 
   .cancel-button:hover {
     background: #666;
-  }
-
-  .button-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
   }
 
   @media (min-width: 640px) {
@@ -263,8 +294,17 @@ const styles = `
       font-size: 0.9rem;
     }
 
-    .button-group {
+    .modal-buttons {
       flex-direction: row;
+      justify-content: center;
+    }
+
+    .modal {
+      padding: 2rem;
+    }
+
+    .modal-title {
+      font-size: 1.75rem;
     }
   }
 `;
@@ -316,8 +356,6 @@ const UpgradePackagesPage = () => {
   const userPackages = userData?.user?.package_ids?.length && userData?.allPackages?.length
     ? userData.allPackages.filter(pkg => userData.user.package_ids.includes(pkg.id))
     : [];
-  console.log(userData);
-  
 
   const getHighestOwnedRank = () => {
     if (!userPackages.length) return 0;
@@ -338,16 +376,37 @@ const UpgradePackagesPage = () => {
   const handleUpgrade = async (pkgId) => {
     setLoading(true);
     try {
-      // Placeholder for actual upgrade API call
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API call
-      alert(`Upgrade to package ${pkgId} successful!`);
-      fetchUserPackages(); // Refresh data
-    } catch {
-      setError('Failed to process upgrade. Please try again.');
-    } finally {
+      const pkg = userData.allPackages.find((p) => p.id === pkgId);
+      if (!pkg) {
+        throw new Error('Selected package not found');
+      }
+
+      const response = await fetch(`${API_ROUTES.baseUrl}/api/create-upgrade-order-instamojo`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          registration_id: userData.user.id,
+          package_id: pkgId,
+          amount: pkg.price,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      // Redirect to Instamojo payment URL
+      window.location.href = data.payment_request.url;
+    } catch (err) {
+      setError(err.message || 'Failed to process upgrade. Please try again.');
       setLoading(false);
       setSelectedPackage(null);
     }
+  };
+
+  const closeModal = () => {
+    setSelectedPackage(null);
   };
 
   return (
@@ -357,7 +416,7 @@ const UpgradePackagesPage = () => {
         <div className="search-container">
           <input
             type="text"
-            placeholder="Search by email or phone"
+            placeholder="Search by email, name, or phone"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="search-input"
@@ -431,7 +490,7 @@ const UpgradePackagesPage = () => {
                             disabled ? 'ineligible-button' : 'upgrade-button'
                           }
                         >
-                          {owns ? 'Currently Owned' : disabled ? 'Not Eligible' : 'Upgrade to this package'}
+                          {owns ? 'Owned' : disabled ? 'Not Eligible' : 'Select'}
                         </button>
                       </div>
                     );
@@ -441,32 +500,36 @@ const UpgradePackagesPage = () => {
                 <p className="no-packages">No main packages available for upgrade.</p>
               )}
             </div>
+          </div>
+        )}
 
-            {selectedPackage && (
-              <div className="section confirm-section">
-                <h2 className="section-title">Confirm Upgrade</h2>
+        {selectedPackage && (
+          <div className="modal-overlay" onClick={closeModal}>
+            <div className="modal" onClick={(e) => e.stopPropagation()}>
+              <h2 className="modal-title">Confirm Upgrade</h2>
+              <div className="modal-content">
                 <p>
                   Upgrade to{' '}
                   <strong>{userData.allPackages.find((p) => p.id === selectedPackage)?.name || 'Unknown'}</strong> for{' '}
                   ₹{userData.allPackages.find((p) => p.id === selectedPackage)?.price.toLocaleString() || '0'}.
                 </p>
-                <div className="button-group">
-                  <button
-                    onClick={() => handleUpgrade(selectedPackage)}
-                    disabled={loading}
-                    className="confirm-button"
-                  >
-                    {loading ? 'Processing...' : 'Confirm Upgrade'}
-                  </button>
-                  <button
-                    onClick={() => setSelectedPackage(null)}
-                    className="cancel-button"
-                  >
-                    Cancel
-                  </button>
-                </div>
               </div>
-            )}
+              <div className="modal-buttons">
+                <button
+                  onClick={() => handleUpgrade(selectedPackage)}
+                  disabled={loading}
+                  className="confirm-button"
+                >
+                  {loading ? 'Processing...' : 'Confirm Upgrade'}
+                </button>
+                <button
+                  onClick={closeModal}
+                  className="cancel-button"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>
