@@ -428,7 +428,7 @@ const UpgradePackagesPage = () => {
         <div className="search-container">
           <input
             type="text"
-            placeholder="Search by email, name, or phone"
+            placeholder="Search by email or phone"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="search-input"
