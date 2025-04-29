@@ -373,6 +373,13 @@ const UpgradePackagesPage = () => {
     );
   };
 
+  const getDifferenceAmount = (pkgId) => {
+    const pkg = userData.allPackages.find((p) => p.id === pkgId);
+    if (!pkg || !userData.user.amount || userData.user.fees === undefined) return 0;
+    const adjustedCurrentAmount = parseFloat(userData.user.amount) - (parseFloat(userData.user.fees) + 0.18 * parseFloat(userData.user.fees));
+    return pkg.price - adjustedCurrentAmount;
+  };
+
   const handleUpgrade = async (pkgId) => {
     setLoading(true);
     try {
@@ -381,13 +388,18 @@ const UpgradePackagesPage = () => {
         throw new Error('Selected package not found');
       }
 
+      const differenceAmount = getDifferenceAmount(pkgId);
+      if (differenceAmount <= 0) {
+        throw new Error('Upgrade amount must be positive');
+      }
+
       const response = await fetch(`${API_ROUTES.baseUrl}/api/create-upgrade-order-instamojo`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           registration_id: userData.user.id,
           package_id: pkgId,
-          amount: pkg.price,
+          amount: differenceAmount,
         }),
       });
 
@@ -511,7 +523,7 @@ const UpgradePackagesPage = () => {
                 <p>
                   Upgrade to{' '}
                   <strong>{userData.allPackages.find((p) => p.id === selectedPackage)?.name || 'Unknown'}</strong> for{' '}
-                  ₹{userData.allPackages.find((p) => p.id === selectedPackage)?.price.toLocaleString() || '0'}.
+                  ₹{getDifferenceAmount(selectedPackage).toLocaleString() || '0'}.
                 </p>
               </div>
               <div className="modal-buttons">
