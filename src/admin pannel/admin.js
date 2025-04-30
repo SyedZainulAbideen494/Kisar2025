@@ -5,6 +5,7 @@ import { API_ROUTES } from "../app modules/apiRoutes";
 import { Link } from "react-router-dom";
 import PackageList from "./PackageList";
 import PackageModal from "./PackageList";
+import * as XLSX from 'xlsx';
 
 function AdminPanel() {
   const [registrations, setRegistrations] = useState([]);
@@ -37,7 +38,13 @@ function AdminPanel() {
       setLoading(false);
     }
   };
-
+  const handleExportToExcel = () => {
+    const fileName = 'registrations.xlsx';
+    const worksheet = XLSX.utils.json_to_sheet(registrations);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Registrations');
+    XLSX.writeFile(workbook, fileName);
+  };
   // Handle Edit Click
   const handleEditClick = (user) => {
     setEditingUser({ ...user, payment_date: user.payment_date.split(" ")[0] }); // Format date
@@ -116,6 +123,18 @@ function AdminPanel() {
   + Add Packages
 </Link>
 <PackageModal totalRegistrations={totalResults} totalAmount={totalAmount} />
+<button onClick={handleExportToExcel} style={{
+    display: "inline-block",
+    padding: "10px 15px",
+    backgroundColor: "#0078ff",
+    color: "#fff",
+    textDecoration: "none",
+    borderRadius: "9px",
+    textAlign: "center",
+    transition: "background-color 0.3s ease",
+  }} disabled={registrations.length === 0}>
+        Export to Excel
+      </button>
 
       </div>
       <div className="results-info">
