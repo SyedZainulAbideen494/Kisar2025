@@ -40,11 +40,41 @@ function AdminPanel() {
   };
   const handleExportToExcel = () => {
     const fileName = 'registrations.xlsx';
-    const worksheet = XLSX.utils.json_to_sheet(registrations);
+  
+    // Flatten the data to make it Excel-friendly
+    const flattenedData = registrations.map(user => ({
+      ID: user.id,
+      Honorific: user.honorific,
+      FirstName: user.first_name,
+      MiddleName: user.middle_name,
+      LastName: user.last_name,
+      Email: user.email,
+      Phone: user.phone,
+      Address: user.address,
+      City: user.city,
+      State: user.state,
+      Pincode: user.pincode,
+      MedCouncilNo: user.med_council_number,
+      Category: user.category,
+      Type: user.type,
+      Packages: user.package_names.join(', '), // This ensures a readable format
+      PaymentID: user.payment_id,
+      PaymentStatus: user.payment_status,
+      Amount: user.amount,
+      Currency: user.currency,
+      PaymentDate: new Date(user.payment_date).toLocaleString("en-IN", {
+        day: "2-digit", month: "short", year: "numeric",
+        hour: "2-digit", minute: "2-digit", second: "2-digit",
+        hour12: true
+      }),
+    }));
+  
+    const worksheet = XLSX.utils.json_to_sheet(flattenedData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Registrations');
     XLSX.writeFile(workbook, fileName);
   };
+  
   // Handle Edit Click
   const handleEditClick = (user) => {
     setEditingUser({ ...user, payment_date: user.payment_date.split(" ")[0] }); // Format date
