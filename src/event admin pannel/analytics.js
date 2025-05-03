@@ -53,7 +53,8 @@ function AnalyticsPage() {
           <Link to="/event/admin/session" className="navLink__Event__main__Admin">Sessions</Link>
                     <Link to="/event/admin/add-registration" className="navLink__Event__main__Admin">Add Registration</Link>
                     <Link to="/event/admin/analytics" className="navLink__Event__main__Admin navActive__Event__main__Admin">Event Analytics</Link>
-
+                                   <Link to="/event/admin/sponsor" className="navLink__Event__main__Admin">Add Sponsor</Link>
+       
         </div>
       </div>
       <h2>Event Login Analytics</h2>
