@@ -43,16 +43,22 @@ function SessionsPage() {
       alert("Error ending session: " + err.message);
     }
   };
+
+
   const showAttendees = async (session) => {
     try {
       const res = await axios.get(`${API_ROUTES.baseUrl}/api/sessions/${session.id}/attendees`);
-      setAttendees(res.data.attendees);
+      setAttendees({
+        attendees: res.data.attendees || [],
+        sponsors: res.data.sponsors || [],
+      });
       setSelectedSession(session);
       setShowModal(true);
     } catch (err) {
       alert("Error fetching attendees: " + err.message);
     }
   };
+  
 
   return (
     <div className="sessions__container__admin__page">
@@ -101,24 +107,55 @@ function SessionsPage() {
       </div>
             {/* Attendee Modal */}
             {showModal && (
-        <div className="modal__admin__session__page">
-          <div className="modal__content__admin__session__page">
-            <h3>Attendees for {selectedSession?.name}</h3>
-            <button className="modal__close__btn__admin__session__page" onClick={() => setShowModal(false)}>Close</button>
-            <ul>
-              {attendees.length > 0 ? (
-                attendees.map(att => (
-                  <li key={att.id}>
-               {att.first_name} {att.last_name}
-                  </li>
-                ))
-              ) : (
-                <p>No attendees yet.</p>
-              )}
-            </ul>
-          </div>
-        </div>
+  <div className="modal__admin__session__page">
+    <div className="modal__content__admin__session__page">
+      <button
+        className="modal__close__btn__admin__session__page"
+        onClick={() => setShowModal(false)}
+      >
+        ×
+      </button>
+
+      <h3>Attendees for {selectedSession?.name}</h3>
+
+      <h4>
+        Registered Attendees ({attendees.attendees.length})
+      </h4>
+      {attendees.attendees.length > 0 ? (
+        <ul>
+          {attendees.attendees.map((att, idx) => (
+            <li key={idx}>
+              {att.honorific} {att.first_name} {att.last_name} ({att.email})
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No registered attendees yet.</p>
       )}
+
+      <h4>
+        Sponsor Attendees ({attendees.sponsors.length})
+      </h4>
+      {attendees.sponsors.length > 0 ? (
+        <ul>
+          {attendees.sponsors.map((s, idx) => (
+            <li key={idx}>
+              {s.name} – {s.organization || 'No org'} ({s.email})
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No sponsor attendees yet.</p>
+      )}
+
+      <hr style={{ marginTop: '20px', marginBottom: '10px' }} />
+      <p style={{ fontWeight: 'bold' }}>
+        Total Attendees: {attendees.attendees.length + attendees.sponsors.length}
+      </p>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }
