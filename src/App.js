@@ -16,6 +16,7 @@ import UpgradePackagesPage from "./upgrade package/UpgradePackagesPage";
 import MainEventRegApp from "./event admin pannel/mainEventReg";
 import AddEventRegPage from "./event admin pannel/addreg";
 import SessionsPage from "./event admin pannel/SessionsPage";
+import AnalyticsPage from "./event admin pannel/analytics";
 
 
 const router = createBrowserRouter([
@@ -29,6 +30,8 @@ const router = createBrowserRouter([
   {path: '/event/admin/main', element: <MainEventRegApp/>},
   {path: '/event/admin/add-registration', element: <AddEventRegPage/>},
   {path: '/event/admin/session', element: <SessionsPage/>},
+  {path: '/event/admin/analytics', element: <AnalyticsPage/>},
+
 
 ]);
 

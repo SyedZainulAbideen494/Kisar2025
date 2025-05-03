@@ -42,6 +42,7 @@ function MainEventRegApp() {
           <Link to="/event/admin/main" className="navLink__Event__main__Admin navActive__Event__main__Admin">Home</Link>
           <Link to="/event/admin/session" className="navLink__Event__main__Admin">Sessions</Link>
                     <Link to="/event/admin/add-registration" className="navLink__Event__main__Admin">Add Registration</Link>
+                            <Link to="/event/admin/analytics" className="navLink__Event__main__Admin">Event Analytics</Link>
         
         </div>
       </div>
