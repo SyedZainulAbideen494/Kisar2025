@@ -1,0 +1,70 @@
+.form__event__admin__Add__Reg {
+    max-width: 540px;
+    margin: 50px auto;
+    padding: 32px;
+    background: #fafafa;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+  }
+  
+  .input__event__admin__Add__Reg,
+  .select__event__admin__Add__Reg {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    background: #fff;
+    color: #333;
+    transition: border-color 0.2s ease;
+  }
+  
+  .input__event__admin__Add__Reg:focus,
+  .select__event__admin__Add__Reg:focus {
+    border-color: #007bff;
+    outline: none;
+    background: #fff;
+  }
+  
+  .label__event__admin__Add__Reg {
+    font-weight: 500;
+    font-size: 14px;
+    margin: 20px 0 10px;
+    color: #444;
+  }
+  
+  .packages__event__admin__Add__Reg {
+    margin-top: 10px;
+  }
+  
+  .checkbox__event__admin__Add__Reg {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .checkbox__event__admin__Add__Reg input[type="checkbox"] {
+    margin-right: 8px;
+    transform: scale(1.1);
+  }
+  
+  .submit__event__admin__Add__Reg {
+    width: 100%;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 15px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.25s ease;
+  }
+  
+  .submit__event__admin__Add__Reg:hover {
+    background-color: #0056b3;
+  }
+  

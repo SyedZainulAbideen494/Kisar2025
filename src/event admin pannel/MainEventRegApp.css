@@ -1,0 +1,214 @@
+/* General Container */
+.container__Event__main__Admin {
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell;
+    background-color: #f9f9f9;
+    color: #1c1c1e;
+    min-height: 100vh;
+  }
+  
+  /* Heading */
+  .heading__Event__main__Admin {
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #1c1c1e;
+  }
+  
+  /* Table Wrapper */
+  .tableWrapper__Event__main__Admin {
+    overflow-x: auto;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Table Styling */
+  .table__Event__main__Admin {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  .thead__Event__main__Admin {
+    background-color: #f0f0f0;
+  }
+  
+  .tr__Event__main__Admin {}
+  
+  .th__Event__main__Admin,
+  .td__Event__main__Admin {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .th__Event__main__Admin {
+    font-weight: 600;
+    color: #1c1c1e;
+  }
+  
+  .td__Event__main__Admin {
+    color: #444;
+  }
+  
+  /* Buttons */
+  .btn__Event__main__Admin {
+    padding: 10px 14px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: #007aff;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-size: 0.95rem;
+  }
+  
+  .btn__Event__main__Admin:hover {
+    background-color: #005fcc;
+  }
+  
+  /* Modal */
+  .modal__Event__main__Admin {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 600px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 24px;
+    z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  .modalHeading__Event__main__Admin {
+    margin-top: 0;
+    color: #1c1c1e;
+  }
+  
+  .modalText__Event__main__Admin {
+    margin: 8px 0;
+    line-height: 1.5;
+    color: #333;
+  }
+  
+  .modalCloseBtn__Event__main__Admin {
+    margin-top: 20px;
+    padding: 10px 16px;
+    background-color: #ff3b30;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .modalCloseBtn__Event__main__Admin:hover {
+    background-color: #cc2b25;
+  }
+  
+  /* Responsive */
+  @media (max-width: 600px) {
+    .th__Event__main__Admin,
+    .td__Event__main__Admin {
+      font-size: 0.9rem;
+      padding: 12px;
+    }
+  
+    .btn__Event__main__Admin {
+      padding: 8px 12px;
+      font-size: 0.9rem;
+    }
+  }
+  
+
+
+  /* Navbar container */
+.navbar__Event__main__Admin {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fb;
+    padding: 15px 25px;
+    border-bottom: 1px solid #e1e1e1;
+    top: 0;
+    z-index: 999;
+  }
+  
+  /* Logo */
+  .navLogo__Event__main__Admin {
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  /* Links container */
+  .navLinks__Event__main__Admin {
+    display: flex;
+    gap: 20px;
+  }
+  
+  /* Individual link */
+  .navLink__Event__main__Admin {
+    text-decoration: none;
+    font-weight: 500;
+    color: #555;
+    transition: color 0.2s;
+  }
+  
+  .navLink__Event__main__Admin:hover {
+    color: #000;
+  }
+  
+  /* Active page styling */
+  .navActive__Event__main__Admin {
+    color: #000;
+    border-bottom: 2px solid #333;
+  }
+  
+  /* Responsive */
+  @media screen and (max-width: 768px) {
+    .navbar__Event__main__Admin {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .navLinks__Event__main__Admin {
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      margin-top: 10px;
+    }
+  
+    .navLink__Event__main__Admin {
+      padding-left: 10px;
+    }
+  }
+  
+
+  /* Search Bar */
+.searchBar__Event__main__Admin {
+    margin: 20px 0;
+    text-align: center;
+  }
+  
+  .searchInput__Event__main__Admin {
+    padding: 8px 35px;
+    font-size: 14px;
+    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+  }
+  
+  .searchInput__Event__main__Admin:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  

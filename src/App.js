@@ -13,6 +13,9 @@ import AdminPanelPackages from "./admin pannel/add-packages";
 import PaymentSuccess from "./payment-status/paymentSuccess";
 import PaymentFail from "./payment-status/paymentFail";
 import UpgradePackagesPage from "./upgrade package/UpgradePackagesPage";
+import MainEventRegApp from "./event admin pannel/mainEventReg";
+import AddEventRegPage from "./event admin pannel/addreg";
+import SessionsPage from "./event admin pannel/SessionsPage";
 
 
 const router = createBrowserRouter([
@@ -22,7 +25,11 @@ const router = createBrowserRouter([
   { path: '*', element: <KisarRegistration /> },
   { path: "/payment-success", element: <PaymentSuccess /> },
   { path: "/payment-fail", element: <PaymentFail /> },
-  {path: '/upgrade-package', element: <UpgradePackagesPage/>}
+  {path: '/upgrade-package', element: <UpgradePackagesPage/>},
+  {path: '/event/admin/main', element: <MainEventRegApp/>},
+  {path: '/event/admin/add-registration', element: <AddEventRegPage/>},
+  {path: '/event/admin/session', element: <SessionsPage/>},
+
 ]);
 
 
