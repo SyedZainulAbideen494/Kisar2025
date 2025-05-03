@@ -89,10 +89,12 @@ function AddEventRegPage() {
             <option>FACULTY</option>
           </select>
     
-          <select className="input__event__admin__Add__Reg" name="type" onChange={handleChange}>
-            <option value="clinical">Clinical</option>
-            <option value="embryologist">Embryologist</option>
-          </select>
+          <input 
+  className="input__event__admin__Add__Reg" 
+  name="type" 
+  placeholder="Type (e.g., Clinical, Embryologist)" 
+  onChange={handleChange} 
+/>
     
           <div className="packages__event__admin__Add__Reg">
             <p className="label__event__admin__Add__Reg">Select Packages:</p>
