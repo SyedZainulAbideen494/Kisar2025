@@ -21,7 +21,7 @@ function MainEventRegApp() {
   };
 
   const handleDetails = async (id) => {
-    const res = await axios.get(`${API_ROUTES.baseUrl}api/registrations/event-admin/${id}`);
+    const res = await axios.get(`${API_ROUTES.baseUrl}/api/registrations/event-admin/${id}`);
     setSelected(res.data);
   };
 
