@@ -47,7 +47,7 @@ function AddEventRegPage() {
     const handleSubmit = async e => {
       e.preventDefault();
       try {
-        await axios.post(`${API_ROUTES.baseUrl}api/register/event/admin`, form);
+        await axios.post(`${API_ROUTES.baseUrl}/api/register/event/admin`, form);
         alert('Registered successfully!');
       } catch (err) {
         alert('Error: ' + err.message);
