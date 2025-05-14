@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./SponsorPage.css"; // Optional styling
+import "./SponsorPage.css";
 import { Link } from "react-router-dom";
 import { API_ROUTES } from "../app modules/apiRoutes";
-import QRCode, { QRCodeCanvas } from "qrcode.react"; // Import QRCode component
-import { FaQrcode } from "react-icons/fa"; // Import QR code icon from react-icons
+import { QRCodeCanvas } from "qrcode.react";
+import { FaQrcode } from "react-icons/fa";
 
 function SponsorPage() {
   const [formData, setFormData] = useState({
@@ -15,7 +15,7 @@ function SponsorPage() {
   });
 
   const [sponsors, setSponsors] = useState([]);
-  const [qrDialogSponsor, setQrDialogSponsor] = useState(null); // State to hold sponsor for QR dialog
+  const [qrDialogSponsor, setQrDialogSponsor] = useState(null);
 
   useEffect(() => {
     fetchSponsors();
@@ -40,7 +40,7 @@ function SponsorPage() {
       await axios.post(`${API_ROUTES.baseUrl}/api/sponsors/register`, formData);
       alert("Sponsor registered!");
       setFormData({ name: "", phone: "", email: "", organization: "" });
-      fetchSponsors(); // refresh the list
+      fetchSponsors();
     } catch (err) {
       alert("Registration failed.");
     }
@@ -56,7 +56,6 @@ function SponsorPage() {
 
   return (
     <div className="sponsor__container">
-      {/* Navbar */}
       <div className="navbar__Event__main__Admin">
         <div className="navLogo__Event__main__Admin">Event Admin</div>
         <div className="navLinks__Event__main__Admin">
@@ -130,7 +129,7 @@ function SponsorPage() {
             <th>Email</th>
             <th>Organization</th>
             <th>Registered On</th>
-            <th>QR Code</th> {/* QR Code column */}
+            <th>QR Code</th>
           </tr>
         </thead>
         <tbody>
@@ -144,8 +143,8 @@ function SponsorPage() {
                 <td>{new Date(s.created_at).toLocaleString()}</td>
                 <td>
                   {s.reference_id ? (
-                    <button 
-                      onClick={() => openQrDialog(s)} 
+                    <button
+                      onClick={() => openQrDialog(s)}
                       style={{
                         background: "none",
                         border: "none",
@@ -153,7 +152,7 @@ function SponsorPage() {
                         padding: 0,
                         display: "flex",
                         justifyContent: "center",
-                        alignItems: "center"
+                        alignItems: "center",
                       }}
                       aria-label={`Show QR code for ${s.name}`}
                       title="Show QR code"
@@ -176,24 +175,33 @@ function SponsorPage() {
         </tbody>
       </table>
 
-      {/* QR Code Dialog */}
       {qrDialogSponsor && (
         <div className="modal-overlay">
-          <div className="edit-modal" style={{ textAlign: "center", padding: "20px", maxWidth: "320px", margin: "auto" }}>
+          <div
+            className="edit-modal"
+            style={{
+              textAlign: "center",
+              padding: "20px",
+              maxWidth: "320px",
+              margin: "auto",
+            }}
+          >
             <h3>QR Code for {qrDialogSponsor.name}</h3>
             <p>Reference ID: {qrDialogSponsor.reference_id}</p>
-            <QRCodeCanvas value={qrDialogSponsor.reference_id} size={200} />
+            <div className="qr-container">
+              <QRCodeCanvas value={qrDialogSponsor.reference_id} size={200} />
+            </div>
             <div className="modal-buttons" style={{ marginTop: "20px" }}>
               <button
                 onClick={closeQrDialog}
                 className="cancel-btn"
                 style={{
                   padding: "10px 20px",
-                  backgroundColor: "#ff4d4d",
-                  color: "white",
+                  backgroundColor: "white",
+                  color: "black",
                   border: "none",
                   borderRadius: "5px",
-                  cursor: "pointer"
+                  cursor: "pointer",
                 }}
               >
                 Close
@@ -207,4 +215,3 @@ function SponsorPage() {
 }
 
 export default SponsorPage;
-

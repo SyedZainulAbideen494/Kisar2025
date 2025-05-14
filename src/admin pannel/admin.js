@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 import PackageList from "./PackageList";
 import PackageModal from "./PackageList";
 import * as XLSX from 'xlsx';
-import QRCode, { QRCodeCanvas } from 'qrcode.react';
-import { FaQrcode } from 'react-icons/fa'; // Import QR code icon from react-icons
+import { QRCodeCanvas } from 'qrcode.react';
+import { FaQrcode } from 'react-icons/fa';
 
 function AdminPanel() {
   const [registrations, setRegistrations] = useState([]);
@@ -19,7 +19,7 @@ function AdminPanel() {
   const [editingUser, setEditingUser] = useState(null);
   const [totalResults, setTotalResults] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
-  const [qrCodeUser, setQrCodeUser] = useState(null); // State for QR code modal
+  const [qrCodeUser, setQrCodeUser] = useState(null);
 
   useEffect(() => {
     fetchRegistrations();
@@ -71,7 +71,9 @@ function AdminPanel() {
     }));
     const worksheet = XLSX.utils.json_to_sheet(flattenedData);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Registrations');
+    XLSX.utils
+
+.book_append_sheet(workbook, worksheet, 'Registrations');
     XLSX.writeFile(workbook, fileName);
   };
 
@@ -104,7 +106,6 @@ function AdminPanel() {
     }
   };
 
-  // Handle QR Code Click
   const handleQrCodeClick = (user) => {
     setQrCodeUser(user);
   };
@@ -283,7 +284,6 @@ function AdminPanel() {
         </table>
       </div>
 
-      {/* Edit User Modal */}
       {editingUser && (
         <div className="modal-overlay">
           <div className="edit-modal">
@@ -292,9 +292,9 @@ function AdminPanel() {
               value={editingUser.honorific}
               onChange={(e) => setEditingUser({ ...editingUser, honorific: e.target.value })}
               style={{
-                backgroundColor: "#333",
-                color: "#fff",
-                border: "1px solid #555",
+                backgroundColor: "#fff",
+                color: "#000",
+                border: "1px solid #ccc",
                 padding: "8px",
                 borderRadius: "5px",
                 outline: "none",
@@ -318,9 +318,9 @@ function AdminPanel() {
             <select
               value={editingUser.category}
               style={{
-                backgroundColor: "#333",
-                color: "#fff",
-                border: "1px solid #555",
+                backgroundColor: "#fff",
+                color: "#000",
+                border: "1px solid #ccc",
                 padding: "8px",
                 borderRadius: "5px",
                 outline: "none",
@@ -334,9 +334,9 @@ function AdminPanel() {
             </select>
             <select
               style={{
-                backgroundColor: "#333",
-                color: "#fff",
-                border: "1px solid #555",
+                backgroundColor: "#fff",
+                color: "#000",
+                border: "1px solid #ccc",
                 padding: "8px",
                 borderRadius: "5px",
                 outline: "none",
@@ -352,9 +352,9 @@ function AdminPanel() {
             <input type="text" value={editingUser.payment_id} onChange={(e) => setEditingUser({ ...editingUser, payment_id: e.target.value })} placeholder="Payment ID" />
             <select
               style={{
-                backgroundColor: "#333",
-                color: "#fff",
-                border: "1px solid #555",
+                backgroundColor: "#fff",
+                color: "#000",
+                border: "1px solid #ccc",
                 padding: "8px",
                 borderRadius: "5px",
                 outline: "none",
@@ -378,32 +378,33 @@ function AdminPanel() {
         </div>
       )}
 
-      {/* QR Code Modal */}
-      {qrCodeUser  && (
-  <div className="modal-overlay">
-    <div className="edit-modal" style={{ textAlign: "center", padding: "20px" }}>
-      <h3>Payment ID QR Code</h3>
-      <p>Payment ID: {qrCodeUser .payment_id}</p>
-      <QRCodeCanvas value={qrCodeUser .payment_id} size={200} /> {/* Change this line */}
-      <div className="modal-buttons" style={{ marginTop: "20px" }}>
-        <button
-          onClick={() => setQrCodeUser (null)}
-          className="cancel-btn"
-          style={{
-            padding: "10px 20px",
-            backgroundColor: "#ff4d4d",
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer"
-          }}
-        >
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+      {qrCodeUser && (
+        <div className="modal-overlay">
+          <div className="edit-modal" style={{ textAlign: "center", padding: "20px", maxWidth: "320px", margin: "auto" }}>
+            <h3>Payment ID QR Code</h3>
+            <p>Payment ID: {qrCodeUser.payment_id}</p>
+            <div className="qr-container">
+              <QRCodeCanvas value={qrCodeUser.payment_id} size={200} />
+            </div>
+            <div className="modal-buttons" style={{ marginTop: "20px" }}>
+              <button
+                onClick={() => setQrCodeUser(null)}
+                className="cancel-btn"
+                style={{
+                  padding: "10px 20px",
+                  backgroundColor: "#ff4d4d",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer"
+                }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
